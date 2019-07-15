@@ -30,6 +30,10 @@ variable "task_definition_arn" {
   description = "(Required) The full ARN of the task definition that you want to run in your service."
 }
 
+variable "ecs_cluster_name" {
+  description = "Name of the ECS cluster"
+}
+
 variable "ecs_cluster_arn" {
   description = "ARN of an ECS cluster"
 }
@@ -37,6 +41,10 @@ variable "ecs_cluster_arn" {
 variable "subnets" {
   description = "The subnets associated with the task or service."
   type        = list
+}
+
+variable "container_name" {
+  description = "Name of the running container"
 }
 
 variable "container_port" {

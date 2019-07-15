@@ -19,6 +19,7 @@ Check valid versions on:
             vpc_id              = module.networking.vpc_id
             task_definition_arn = module.td.aws_ecs_task_definition_td_arn
             container_port      = module.td.container_port
+            ecs_cluster_name    = module.ecs-cluster.aws_ecs_cluster_cluster_name
             ecs_cluster_arn     = module.ecs-cluster.aws_ecs_cluster_cluster_arn
             subnets             = module.networking.private_subnets_ids
         }
@@ -32,8 +33,10 @@ Check the section "Other modules that you may need to use this module" for detai
 * region: AWS Region the infrastructure is hosted in.
 * vpc_id: ID of the VPC.
 * task_definition_arn: (Required) The full ARN of the task definition that you want to run in your service.
+* ecs_cluster_name = Name of the ECS cluster.
 * ecs_cluster_arn: ARN of an ECS cluster.
 * subnets: The subnets associated with the task or service.
+* container_name: Name of the running container.
 * container_port: Port on which the container is listening.
 * desired_count: (Optional) The number of instances of the task definition to place and keep running. Defaults to 1.
 * platform_version: (Optional) The platform version on which to run your service. Defaults to LATEST. More information about Fargate platform versions can be found in the AWS ECS User Guide.
@@ -92,7 +95,7 @@ The ECS cluster module should look like this:
 
         module "ecs-cluster": 
             source       = "jnonino/ecs-cluster/aws"
-            version      = "1.0.0"
+            version      = "1.0.1"
             name_preffix = var.name_preffix
             profile      = var.profile
             region       = var.region

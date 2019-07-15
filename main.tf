@@ -16,17 +16,6 @@ resource "aws_kms_key" "encryption_key" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS Cloudwatch Logs
-# ---------------------------------------------------------------------------------------------------------------------
-module "aws_cw_logs" {
-  source  = "jnonino/cloudwatch-logs/aws"
-  version = "1.0.2"
-  logs_path                   = local.log_options["awslogs-group"]
-  profile                     = var.profile
-  region                      = var.region
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
 # AWS SECURITY GROUP - ECS Tasks, allow traffic only from Load Balancer
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_security_group" "ecs_tasks_sg" {
@@ -65,10 +54,30 @@ resource "aws_ecs_service" "service" {
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   enable_ecs_managed_tags            = var.enable_ecs_managed_tags
   propagate_tags                     = var.propagate_tags
-  ordered_placement_strategy         = var.ordered_placement_strategy
+  dynamic "ordered_placement_strategy" {
+    for_each = var.ordered_placement_strategy
+    content {
+      type  = ordered_placement_strategy.value.type
+      field = lookup(ordered_placement_strategy.value, "field", null)
+    }
+  }
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
-  placement_constraints              = var.placement_constraints
-  service_registries                 = var.service_registries
+  dynamic "placement_constraints" {
+    for_each = var.placement_constraints
+    content {
+      expression = lookup(placement_constraints.value, "expression", null)
+      type       = placement_constraints.value.type
+    }
+  }
+  dynamic "service_registries" {
+    for_each = var.service_registries
+    content {
+      registry_arn   = service_registries.value.registry_arn
+      port           = lookup(service_registries.value, "port", null)
+      container_name = lookup(service_registries.value, "container_name", null)
+      container_port = lookup(service_registries.value, "container_port", null)
+    }
+  }
   network_configuration {
     security_groups  =[aws_security_group.ecs_tasks_sg.id]
     subnets          = var.subnets
@@ -110,7 +119,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   statistic           = "Maximum"
   threshold           = "85"
   dimensions = {
-    ClusterName = aws_ecs_cluster.cluster.name
+    ClusterName = var.ecs_cluster_name
     ServiceName = aws_ecs_service.service.name
   }
   alarm_actions = [aws_appautoscaling_policy.scale_up_policy.arn]
@@ -129,7 +138,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
   statistic           = "Average"
   threshold           = "10"
   dimensions = {
-    ClusterName = aws_ecs_cluster.cluster.name
+    ClusterName = var.ecs_cluster_name
     ServiceName = aws_ecs_service.service.name
   }
   alarm_actions = [aws_appautoscaling_policy.scale_down_policy.arn]
@@ -142,7 +151,7 @@ resource "aws_appautoscaling_policy" "scale_up_policy" {
   name               = "${var.name_preffix}-scale-up-policy"
   depends_on         = [aws_appautoscaling_target.scale_target]
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.service.name}"
+  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
@@ -162,7 +171,7 @@ resource "aws_appautoscaling_policy" "scale_down_policy" {
   name               = "${var.name_preffix}-scale-down-policy"
   depends_on         = [aws_appautoscaling_target.scale_target]
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.service.name}"
+  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
@@ -180,7 +189,7 @@ resource "aws_appautoscaling_policy" "scale_down_policy" {
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_appautoscaling_target" "scale_target" {
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.service.name}"
+  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   role_arn           = aws_iam_role.ecs_autoscale_role.arn
   min_capacity       = 1
