@@ -23,11 +23,6 @@ variable "vpc_id" {
   description = "ID of the VPC"
 }
 
-variable "availability_zones" {
-  type        = list
-  description = "List of Availability Zones"
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # AWS ECS SERVICE
 # ---------------------------------------------------------------------------------------------------------------------
@@ -37,6 +32,15 @@ variable "task_definition_arn" {
 
 variable "ecs_cluster_arn" {
   description = "ARN of an ECS cluster"
+}
+
+variable "subnets" {
+  description = "The subnets associated with the task or service."
+  type        = list
+}
+
+variable "container_port" {
+  description = "Port on which the container is listening"
 }
 
 variable "desired_count" {
@@ -94,11 +98,6 @@ variable "service_registries" {
   description = "(Optional) The service discovery registries for the service. The maximum number of service_registries blocks is 1. This is a map that should contain the following fields \"registry_arn\", \"port\", \"container_port\" and \"container_name\""
   type        = map
   default     = {}
-}
-
-variable "subnets" {
-  description = "The subnets associated with the task or service."
-  type        = list
 }
 
 variable "security_groups" {

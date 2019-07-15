@@ -29,7 +29,7 @@ resource "aws_lb" "lb" {
   name                             = "${var.name_preffix}-lb"
   internal                         = false
   load_balancer_type               = "application"
-  subnets                          = var.public_subnets_ids
+  subnets                          = var.subnets
   security_groups                  = [aws_security_group.lb_sg.id]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = true

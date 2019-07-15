@@ -7,35 +7,46 @@ This Terraform module deploys an AWS ECS Fargate service.
 ## Usage
 
 Check valid versions on:
-* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate/releases>
-* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate/aws>
+* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate-service/releases>
+* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-service/aws>
 
         module "ecs-fargate-service": 
-            source              = "jnonino/ecs-fargate/aws"
-            version             = "2.0.4"
+            source              = "jnonino/ecs-fargate-service/aws"
+            version             = "1.0.0"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
             vpc_id              = module.networking.vpc_id
-            availability_zones  = module.networking.availability_zones
-            public_subnets_ids  = module.networking.public_subnets_ids
-            private_subnets_ids = module.networking.private_subnets_ids
-            container_name               = "<CONTAINER_NAME>"
-            container_image              = "<IMAGE_NAME>:<IMAGE_TAG>"
-            container_cpu                = 1024
-            container_memory             = 8192
-            container_memory_reservation = 2048
-            essential                    = true
-            container_port               = 9000
-            environment = [
-                {
-                    name  = "<VARIABLE_NAME>"
-                    value = "<VARIABLE_VALUE>"
-                }
-            ]
+            task_definition_arn = module.td.aws_ecs_task_definition_td_arn
+            container_port      = module.td.container_port
+            ecs_cluster_arn     = module.ecs-cluster.aws_ecs_cluster_cluster_arn
+            subnets             = module.networking.private_subnets_ids
         }
 
 Check the section "Other modules that you may need to use this module" for details about modules mentioned in the usage example.
+
+## Input values
+
+* name_preffix: Name preffix for resources on AWS.
+* profile: AWS API key credentials to use.
+* region: AWS Region the infrastructure is hosted in.
+* vpc_id: ID of the VPC.
+* task_definition_arn: (Required) The full ARN of the task definition that you want to run in your service.
+* ecs_cluster_arn: ARN of an ECS cluster.
+* subnets: The subnets associated with the task or service.
+* container_port: Port on which the container is listening.
+* desired_count: (Optional) The number of instances of the task definition to place and keep running. Defaults to 1.
+* platform_version: (Optional) The platform version on which to run your service. Defaults to LATEST. More information about Fargate platform versions can be found in the AWS ECS User Guide.
+* deployment_maximum_percent: (Optional) The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment.
+* deployment_minimum_healthy_percent: (Optional) The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment.
+* enable_ecs_managed_tags: (Optional) Specifies whether to enable Amazon ECS managed tags for the tasks within the service.
+* propagate_tags: (Optional) Specifies whether to propagate the tags from the task definition or the service to the tasks. The valid values are SERVICE and TASK_DEFINITION. Default to SERVICE.
+* ordered_placement_strategy: (Optional) Service level strategy rules that are taken into consideration during task placement. List from top to bottom in order of precedence. The maximum number of ordered_placement_strategy blocks is 5. This is a list of maps where each map should contain "id" and "field".
+* health_check_grace_period_seconds: (Optional) Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 2147483647. Only valid for services configured to use load balancers.
+* placement_constraints: (Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain "type" and "expression".
+* service_registries: (Optional) The service discovery registries for the service. The maximum number of service_registries blocks is 1. This is a map that should contain the following fields "registry_arn", "port", "container_port" and "container_name".
+* security_groups: (Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used.
+* assign_public_ip: (Optional) Assign a public IP address to the ENI (Fargate launch type only). Valid values are true or false. Default false.
 
 ## Output values
 
@@ -76,4 +87,35 @@ The networking module should look like this:
 Check versions for this module on:
 * Github Releases: <https://github.com/jnonino/terraform-aws-networking/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/networking/aws>
+
+The ECS cluster module should look like this:
+
+        module "ecs-cluster": 
+            source       = "jnonino/ecs-cluster/aws"
+            version      = "1.0.0"
+            name_preffix = var.name_preffix
+            profile      = var.profile
+            region       = var.region
+        }
+
+Check versions for this module on:
+* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-cluster/releases>
+* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-cluster/aws>
+
+The task definition module should like this:
+
+        module "td" {
+    	    source          = "jnonino/ecs-fargate-task-definition/aws"
+            version         = "1.0.1"
+            name_preffix    = var.name_preffix
+            profile         = var.profile
+            region          = var.region
+            container_name  = "${var.name_preffix}-<NAME>"
+            container_image = "<IMAGE_NAME>:<IMAGE_TAG>"
+            container_port  = <PORT>
+    	}
+
+Check versions for this module on:
+* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition/releases>
+* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-task-definition/aws>
 
