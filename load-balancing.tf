@@ -1,5 +1,29 @@
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS Load Balancer
+# AWS SECURITY GROUP - Control Access to ALB
+# ---------------------------------------------------------------------------------------------------------------------
+resource "aws_security_group" "lb_sg" {
+  name        = "${var.name_preffix}-lb-sg"
+  description = "Control access to LB"
+  vpc_id      = var.vpc_id
+  ingress {
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "${var.name_preffix}-lb-sg"
+  }
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# AWS LOAD BALANCER
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_lb" "lb" {
   name                             = "${var.name_preffix}-lb"
@@ -15,7 +39,7 @@ resource "aws_lb" "lb" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS LB Target Group
+# AWS LOAD BALANCER - Target Group
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_lb_target_group" "lb_tg" {
   depends_on  = [aws_lb.lb]
@@ -34,7 +58,7 @@ resource "aws_lb_target_group" "lb_tg" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS LB Listener
+# AWS LOAD BALANCER -  Listener
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_lb_listener" "listener" {
   depends_on        = [aws_lb_target_group.lb_tg]
