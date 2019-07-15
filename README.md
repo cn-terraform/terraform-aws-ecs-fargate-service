@@ -35,6 +35,26 @@ Check valid versions on:
             ]
         }
 
+Check the section "Other modules that you may need to use this module" for details about modules mentioned in the usage example.
+
+## Output values
+
+* lb_id: Load Balancer ID.
+* lb_arn: Load Balancer ARN.
+* lb_arn_suffix: Load Balancer ARN Suffix.
+* lb_dns_name: Load Balancer DNS Name.
+* lb_zone_id: Load Balancer Zone ID.
+* lb_sg_id: Load Balancer Security Group - The ID of the security group.
+* lb_sg_arn: Load Balancer Security Group - The ARN of the security group.
+* lb_sg_name: Load Balancer Security Group - The name of the security group.
+* lb_sg_description: Load Balancer Security Group - The description of the security group.
+* ecs_tasks_sg_id: ECS Tasks Security Group - The ID of the security group.
+* ecs_tasks_sg_arn: ECS Tasks Security Group - The ARN of the security group.
+* ecs_tasks_sg_name: ECS Tasks Security Group - The name of the security group.
+* ecs_tasks_sg_description: ECS Tasks Security Group - The description of the security group.
+
+## Other modules that you may need to use this module
+
 The networking module should look like this:
 
         module "networking" {
@@ -53,18 +73,3 @@ Check versions for this module on:
 * Github Releases: <https://github.com/jnonino/terraform-aws-networking/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/networking/aws>
 
-## Output values
-
-* lb_id: Load Balancer ID.
-* lb_arn: Load Balancer ARN.
-* lb_arn_suffix: Load Balancer ARN Suffix.
-* lb_dns_name: Load Balancer DNS Name.
-* lb_zone_id: Load Balancer Zone ID.
-* lb_sg_id: Load Balancer Security Group - The ID of the security group.
-* lb_sg_arn: Load Balancer Security Group - The ARN of the security group.
-* lb_sg_name: Load Balancer Security Group - The name of the security group.
-* lb_sg_description: Load Balancer Security Group - The description of the security group.
-* ecs_tasks_sg_id: ECS Tasks Security Group - The ID of the security group.
-* ecs_tasks_sg_arn: ECS Tasks Security Group - The ARN of the security group.
-* ecs_tasks_sg_name: ECS Tasks Security Group - The name of the security group.
-* ecs_tasks_sg_description: ECS Tasks Security Group - The description of the security group.
