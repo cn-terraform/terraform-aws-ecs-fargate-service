@@ -20,7 +20,7 @@ Check valid versions on:
             availability_zones  = module.networking.availability_zones
             public_subnets_ids  = module.networking.public_subnets_ids
             private_subnets_ids = module.networking.private_subnets_ids
-            container_name               = "${var.name_preffix}-sonar"
+            container_name               = "<CONTAINER_NAME>"
             container_image              = "<IMAGE_NAME>:<IMAGE_TAG>"
             container_cpu                = 1024
             container_memory             = 8192
@@ -60,9 +60,9 @@ The networking module should look like this:
         module "networking" {
     		source          = "jnonino/networking/aws"
             version         = "2.0.3"
-            name_preffix    = "base"
-            profile         = "aws_profile"
-            region          = "us-east-1"
+            name_preffix    = var.name_preffix
+            profile         = var.profile
+            region          = var.region
             vpc_cidr_block  = "192.168.0.0/16"
             availability_zones                          = [ "us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d" ]
             public_subnets_cidrs_per_availability_zone  = [ "192.168.0.0/19", "192.168.32.0/19", "192.168.64.0/19", "192.168.96.0/19" ]
