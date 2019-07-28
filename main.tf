@@ -196,3 +196,9 @@ resource "aws_appautoscaling_target" "scale_target" {
   max_capacity       = 5
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# AWS CloudWatch Log Group
+# ---------------------------------------------------------------------------------------------------------------------
+resource "aws_cloudwatch_log_group" "yada" {
+  name = "/ecs/service/${var.name_preffix}"
+}
