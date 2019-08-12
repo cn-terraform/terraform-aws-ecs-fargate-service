@@ -12,7 +12,7 @@ Check valid versions on:
 
         module "ecs-fargate-service": 
             source              = "jnonino/ecs-fargate-service/aws"
-            version             = "1.0.0"
+            version             = "1.0.1"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
@@ -46,6 +46,7 @@ Check the section "Other modules that you may need to use this module" for detai
 * propagate_tags: (Optional) Specifies whether to propagate the tags from the task definition or the service to the tasks. The valid values are SERVICE and TASK_DEFINITION. Default to SERVICE.
 * ordered_placement_strategy: (Optional) Service level strategy rules that are taken into consideration during task placement. List from top to bottom in order of precedence. The maximum number of ordered_placement_strategy blocks is 5. This is a list of maps where each map should contain "id" and "field".
 * health_check_grace_period_seconds: (Optional) Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 2147483647. Only valid for services configured to use load balancers.
+* health_check_path: (Optional) The destination for the health check request.
 * placement_constraints: (Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain "type" and "expression".
 * service_registries: (Optional) The service discovery registries for the service. The maximum number of service_registries blocks is 1. This is a map that should contain the following fields "registry_arn", "port", "container_port" and "container_name".
 * security_groups: (Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used.
