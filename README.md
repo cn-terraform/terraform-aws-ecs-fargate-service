@@ -12,7 +12,7 @@ Check valid versions on:
 
         module "ecs-fargate-service": 
             source              = "jnonino/ecs-fargate-service/aws"
-            version             = "1.0.1"
+            version             = "1.0.2"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
