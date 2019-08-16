@@ -10,7 +10,7 @@ Check valid versions on:
 * Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate-service/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-service/aws>
 
-        module "ecs-fargate-service": 
+        module "ecs-fargate-service" { 
             source              = "jnonino/ecs-fargate-service/aws"
             version             = "1.0.2"
             name_preffix        = var.name_preffix
@@ -94,7 +94,7 @@ Check versions for this module on:
 
 The ECS cluster module should look like this:
 
-        module "ecs-cluster": 
+        module "ecs-cluster" { 
             source       = "jnonino/ecs-cluster/aws"
             version      = "1.0.1"
             name_preffix = var.name_preffix
