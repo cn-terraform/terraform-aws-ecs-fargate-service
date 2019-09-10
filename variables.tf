@@ -65,13 +65,13 @@ variable "platform_version" {
 variable "deployment_maximum_percent" {
   description = "(Optional) The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment."
   type        = number
-  default     = 100
+  default     = 200
 }
 
 variable "deployment_minimum_healthy_percent" {
   description = "(Optional) The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment."
   type        = number
-  default     = 50
+  default     = 100
 }
 
 variable "enable_ecs_managed_tags" {
