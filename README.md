@@ -2,22 +2,22 @@
 
 This Terraform module deploys an AWS ECS Fargate service.
 
-[![CircleCI](https://circleci.com/gh/jnonino/terraform-aws-ecs-fargate-service/tree/master.svg?style=svg)](https://circleci.com/gh/jnonino/terraform-aws-ecs-fargate-service/tree/master)
-[![](https://img.shields.io/github/license/jnonino/terraform-aws-ecs-fargate-service)](https://github.com/jnonino/terraform-aws-ecs-fargate-service)
-[![](https://img.shields.io/github/issues/jnonino/terraform-aws-ecs-fargate-service)](https://github.com/jnonino/terraform-aws-ecs-fargate-service)
-[![](https://img.shields.io/github/issues-closed/jnonino/terraform-aws-ecs-fargate-service)](https://github.com/jnonino/terraform-aws-ecs-fargate-service)
-[![](https://img.shields.io/github/languages/code-size/jnonino/terraform-aws-ecs-fargate-service)](https://github.com/jnonino/terraform-aws-ecs-fargate-service)
-[![](https://img.shields.io/github/repo-size/jnonino/terraform-aws-ecs-fargate-service)](https://github.com/jnonino/terraform-aws-ecs-fargate-service)
+[![CircleCI](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-service/tree/master.svg?style=svg)](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-service/tree/master)
+[![](https://img.shields.io/github/license/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
+[![](https://img.shields.io/github/issues/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
+[![](https://img.shields.io/github/issues-closed/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
+[![](https://img.shields.io/github/languages/code-size/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
+[![](https://img.shields.io/github/repo-size/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
 
 ## Usage
 
 Check valid versions on:
-* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate-service/releases>
-* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-service/aws>
+* Github Releases: <https://github.com/cn-terraform/terraform-aws-ecs-fargate-service/releases>
+* Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/ecs-fargate-service/aws>
 
         module "ecs-fargate-service" {
-            source              = "jnonino/ecs-fargate-service/aws"
-            version             = "1.0.2"
+            source              = "cn-terraform/ecs-fargate-service/aws"
+            version             = "1.0.3"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
