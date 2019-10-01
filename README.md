@@ -100,16 +100,16 @@ Check versions for this module on:
 The ECS cluster module should look like this:
 
         module "ecs-cluster" { 
-            source       = "jnonino/ecs-cluster/aws"
-            version      = "1.0.1"
+            source       = "cn-terraform/ecs-cluster/aws"
+            version      = "1.0.2"
             name_preffix = var.name_preffix
             profile      = var.profile
             region       = var.region
         }
 
 Check versions for this module on:
-* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-cluster/releases>
-* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-cluster/aws>
+* Github Releases: <https://github.com/cn-terraform/terraform-aws-ecs-cluster/releases>
+* Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/ecs-cluster/aws>
 
 The task definition module should like this:
 
