@@ -17,7 +17,7 @@ Check valid versions on:
 
         module "ecs-fargate-service" {
             source              = "cn-terraform/ecs-fargate-service/aws"
-            version             = "1.0.4"
+            version             = "1.0.5"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
