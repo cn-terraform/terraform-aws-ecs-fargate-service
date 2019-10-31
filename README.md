@@ -17,7 +17,7 @@ Check valid versions on:
 
         module "ecs-fargate-service" {
             source              = "cn-terraform/ecs-fargate-service/aws"
-            version             = "1.0.3"
+            version             = "1.0.4"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
@@ -114,7 +114,7 @@ Check versions for this module on:
 The task definition module should like this:
 
         module "td" {
-    	    source          = "cn-terraform/ecs-fargate-task-definition/aws"
+    	      source          = "cn-terraform/ecs-fargate-task-definition/aws"
             version         = "1.0.1"
             name_preffix    = var.name_preffix
             profile         = var.profile
