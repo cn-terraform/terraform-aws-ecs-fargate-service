@@ -38,8 +38,13 @@ variable "ecs_cluster_arn" {
   description = "ARN of an ECS cluster"
 }
 
-variable "subnets" {
-  description = "The subnets associated with the task or service."
+variable "private_subnets" {
+  description = "The private subnets associated with the task or service."
+  type        = list
+}
+
+variable "public_subnets" {
+  description = "The public subnets associated with the task or service."
   type        = list
 }
 

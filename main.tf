@@ -80,7 +80,7 @@ resource "aws_ecs_service" "service" {
   }
   network_configuration {
     security_groups  =[aws_security_group.ecs_tasks_sg.id]
-    subnets          = var.subnets
+    subnets          = var.private_subnets
     assign_public_ip = var.assign_public_ip
   }
   load_balancer {
@@ -227,7 +227,7 @@ resource "aws_lb" "lb" {
   name                             = "${var.name_preffix}-lb"
   internal                         = false
   load_balancer_type               = "application"
-  subnets                          = var.subnets
+  subnets                          = var.public_subnets
   security_groups                  = [aws_security_group.lb_sg.id]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = true

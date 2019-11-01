@@ -17,7 +17,7 @@ Check valid versions on:
 
         module "ecs-fargate-service" {
             source              = "cn-terraform/ecs-fargate-service/aws"
-            version             = "1.0.5"
+            version             = "1.0.6"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
@@ -26,7 +26,8 @@ Check valid versions on:
             container_port      = module.td.container_port
             ecs_cluster_name    = module.ecs-cluster.aws_ecs_cluster_cluster_name
             ecs_cluster_arn     = module.ecs-cluster.aws_ecs_cluster_cluster_arn
-            subnets             = module.networking.private_subnets_ids
+            private_subnets     = module.networking.private_subnets_ids
+            public_subnets      = module.networking.public_subnets_ids
         }
 
 Check the section "Other modules that you may need to use this module" for details about modules mentioned in the usage example.
