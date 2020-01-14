@@ -17,7 +17,7 @@ Check valid versions on:
 
         module "ecs-fargate-service" {
             source              = "cn-terraform/ecs-fargate-service/aws"
-            version             = "1.0.6"
+            version             = "1.0.7"
             name_preffix        = var.name_preffix
             profile             = var.profile
             region              = var.region
@@ -57,6 +57,7 @@ Check the section "Other modules that you may need to use this module" for detai
 * service_registries: (Optional) The service discovery registries for the service. The maximum number of service_registries blocks is 1. This is a map that should contain the following fields "registry_arn", "port", "container_port" and "container_name".
 * security_groups: (Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used.
 * assign_public_ip: (Optional) Assign a public IP address to the ENI (Fargate launch type only). Valid values are true or false. Default false.
+* lb_health_check_path: (Optional) Health check path for the Load Balancer
 
 ## Output values
 
@@ -100,7 +101,7 @@ Check versions for this module on:
 
 The ECS cluster module should look like this:
 
-        module "ecs-cluster" { 
+        module "ecs-cluster" {
             source       = "cn-terraform/ecs-cluster/aws"
             version      = "1.0.2"
             name_preffix = var.name_preffix

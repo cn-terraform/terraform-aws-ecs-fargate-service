@@ -126,3 +126,8 @@ variable "assign_public_ip" {
   default     = false
 }
 
+variable "lb_health_check_path" {
+  description = "(Optional) Health check path for the Load Balancer"
+  type        = string
+  default     = "/"
+}
