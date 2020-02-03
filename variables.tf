@@ -131,3 +131,9 @@ variable "lb_health_check_path" {
   type        = string
   default     = "/"
 }
+
+variable "lb_health_check_timeout" {
+  description = "(Optional) Health check timeout for the Load Balancer"
+  type        = number
+  default     = 5
+}

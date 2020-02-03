@@ -249,6 +249,7 @@ resource "aws_lb_target_group" "lb_tg" {
   health_check {
     path = var.lb_health_check_path
     port = var.container_port
+    timeout = var.lb_health_check_timeout
   }
   tags = {
     Name = "${var.name_preffix}-lb-tg"
