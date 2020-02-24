@@ -52,7 +52,7 @@ resource "aws_ecs_service" "service" {
       field = lookup(ordered_placement_strategy.value, "field", null)
     }
   }
-  health_check_grace_period_seconds  = var.health_check_grace_period_seconds
+  health_check_grace_period_seconds = var.health_check_grace_period_seconds
   dynamic "placement_constraints" {
     for_each = var.placement_constraints
     content {
@@ -70,7 +70,7 @@ resource "aws_ecs_service" "service" {
     }
   }
   network_configuration {
-    security_groups  =[aws_security_group.ecs_tasks_sg.id]
+    security_groups  = concat([aws_security_group.ecs_tasks_sg.id], var.security_groups)
     subnets          = var.private_subnets
     assign_public_ip = var.assign_public_ip
   }
