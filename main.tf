@@ -72,7 +72,7 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     security_groups  = concat([aws_security_group.ecs_tasks_sg.id], var.security_groups)
     subnets          = var.private_subnets
-    assign_public_ip = var.assign_public_ip
+    assign_public_ip = var.internal_lb ? false : var.assign_public_ip
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.lb_tg.arn
@@ -216,9 +216,9 @@ resource "aws_security_group" "lb_sg" {
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_lb" "lb" {
   name                             = "${var.name_preffix}-lb"
-  internal                         = false
+  internal                         = var.internal_lb
   load_balancer_type               = "application"
-  subnets                          = var.public_subnets
+  subnets                          = var.internal_lb ? var.private_subnets : var.public_subnets
   security_groups                  = [aws_security_group.lb_sg.id]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = true
