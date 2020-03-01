@@ -58,6 +58,7 @@ Check the section "Other modules that you may need to use this module" for detai
 * security_groups: (Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used.
 * assign_public_ip: (Optional) Assign a public IP address to the ENI (Fargate launch type only). Valid values are true or false. Default false.
 * lb_health_check_path: (Optional) Health check path for the Load Balancer
+* internal_lb: (Optional) Sets ECS service load balancer to internal and disables ECS service public ip assignment. Default false
 
 ## Output values
 

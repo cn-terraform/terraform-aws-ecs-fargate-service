@@ -131,3 +131,9 @@ variable "lb_health_check_path" {
   type        = string
   default     = "/"
 }
+
+variable "internal_lb" {
+  description = "(Optional) Sets ECS service load balancer to internal and disables ECS service public ip assignment. Default false"
+  type        = bool
+  default     = false
+}
