@@ -80,7 +80,7 @@ variable "deployment_minimum_healthy_percent" {
 }
 
 variable "enable_ecs_managed_tags" {
-  description = "(Optional) Specifies whether to enable Amazon ECS managed tags for the tasks within the service.Valid values are true or false. Default true."
+  description = "(Optional) Specifies whether to enable Amazon ECS managed tags for the tasks within the service.Valid values are true or false. Default false."
   type        = bool
   default     = false
 }
