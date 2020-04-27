@@ -70,6 +70,7 @@ Check the section "Other modules that you may need to use this module" for detai
 * lb_arn: Load Balancer ARN.
 * lb_arn_suffix: Load Balancer ARN Suffix.
 * lb_dns_name: Load Balancer DNS Name.
+* lb_listener_arn: Load Balancer Listener ARN.
 * lb_zone_id: Load Balancer Zone ID.
 * lb_sg_id: Load Balancer Security Group - The ID of the security group.
 * lb_sg_arn: Load Balancer Security Group - The ARN of the security group.
