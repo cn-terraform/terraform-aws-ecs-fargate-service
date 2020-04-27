@@ -44,6 +44,11 @@ output "lb_dns_name" {
   value       = aws_lb.lb.dns_name
 }
 
+output "lb_listener_arn" {
+  description = "$${var.name_preffix} Load Balancer Listener ARN"
+  value       = aws_lb_listener.listener.arn
+}
+
 output "lb_zone_id" {
   description = "$${var.name_preffix} Load Balancer Zone ID"
   value       = aws_lb.lb.zone_id
