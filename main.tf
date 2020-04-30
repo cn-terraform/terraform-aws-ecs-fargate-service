@@ -106,13 +106,6 @@ resource "aws_security_group" "ecs_tasks_sg" {
   name        = "${var.name_preffix}-ecs-tasks-sg"
   description = "Allow inbound access from the LB only"
   vpc_id      = var.vpc_id
-
-  ingress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
   egress {
     protocol    = "-1"
     from_port   = 0
@@ -124,60 +117,22 @@ resource "aws_security_group" "ecs_tasks_sg" {
   }
 }
 
-# resource "aws_security_group_rule" "ingress_through_http" {
-#   for_each                 = data.aws_lb_target_group.lb_http_target_groups
-#   security_group_id        = aws_security_group.ecs_tasks_sg.id
-#   type                     = "ingress"
-#   from_port                = each.value.port
-#   to_port                  = each.value.port
-#   protocol                 = "tcp"
-#   source_security_group_id = var.load_balancer_sg_id
-# }
+resource "aws_security_group_rule" "ingress_through_http" {
+  count                    = length(data.aws_lb_target_group.lb_http_target_groups)
+  security_group_id        = aws_security_group.ecs_tasks_sg.id
+  type                     = "ingress"
+  from_port                = element(data.aws_lb_target_group.lb_http_target_groups.*.port, count.index)
+  to_port                  = element(data.aws_lb_target_group.lb_http_target_groups.*.port, count.index)
+  protocol                 = "tcp"
+  source_security_group_id = var.load_balancer_sg_id
+}
 
-# resource "aws_security_group_rule" "ingress_through_https" {
-#   for_each                 = data.aws_lb_target_group.lb_https_target_groups
-#   security_group_id        = aws_security_group.ecs_tasks_sg.id
-#   type                     = "ingress"
-#   from_port                = each.value.port
-#   to_port                  = each.value.port
-#   protocol                 = "tcp"
-#   source_security_group_id = var.load_balancer_sg_id
-# }
-
-
-
-
-
-
-
-# variable "http_ports" {
-#   description = "The list of ports to configure for HTTP access"
-#   type = list(number)
-#   default = [ 80 ]
-# }
-
-# variable "https_ports" {
-#   description = "The ports of ports to configure for HTTPS access"
-#   type = list(number)
-#   default = [ 443 ]
-# }
-
-# resource "aws_security_group_rule" "ingress_through_http" {
-#   count             = var.enable_http ? length(var.http_ports) : 0
-#   security_group_id = aws_security_group.ecs_tasks_sg.id
-#   type              = "ingress"
-#   from_port         = element(var.http_ports, count.index)
-#   to_port           = element(var.http_ports, count.index)
-#   protocol          = "tcp"
-#   security_groups   = [module.alb.aws_security_group_lb_access_sg_id]
-# }
-
-# resource "aws_security_group_rule" "ingress_through_https" {
-#   count             = var.enable_http ? length(var.https_ports) : 0
-#   security_group_id = aws_security_group.ecs_tasks_sg.id
-#   type              = "ingress"
-#   from_port         = element(var.https_ports, count.index)
-#   to_port           = element(var.https_ports, count.index)
-#   protocol          = "tcp"
-#   security_groups   = [module.alb.aws_security_group_lb_access_sg_id]
-# }
+resource "aws_security_group_rule" "ingress_through_https" {
+  count                    = length(data.aws_lb_target_group.lb_https_target_groups)
+  security_group_id        = aws_security_group.ecs_tasks_sg.id
+  type                     = "ingress"
+  from_port                = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
+  to_port                  = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
+  protocol                 = "tcp"
+  source_security_group_id = var.load_balancer_sg_id
+}
