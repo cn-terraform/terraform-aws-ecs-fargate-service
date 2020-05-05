@@ -17,7 +17,7 @@ Check valid versions on:
 
 ## Other modules that you may need to use this module
 
-The networking module:
+The Networking module:
 * Github Releases: <https://github.com/cn-terraform/terraform-aws-networking/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/networking/aws>
 
@@ -25,7 +25,7 @@ The ECS cluster module:
 * Github Releases: <https://github.com/cn-terraform/terraform-aws-ecs-cluster/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/ecs-cluster/aws>
 
-The task definition:
+The ECS Task Definition:
 * Github Releases: <https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/ecs-fargate-task-definition/aws>
 
