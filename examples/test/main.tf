@@ -20,7 +20,7 @@ module "base-network" {
 
 module "load_balancer" {
   source          = "cn-terraform/ecs-alb/aws"
-  version         = "1.0.1"
+  version         = "1.0.2"
   name_preffix    = "test-alb"
   vpc_id          = module.base-network.vpc_id
   private_subnets = module.base-network.private_subnets_ids
