@@ -85,6 +85,7 @@ variable "service_registries" {
 
 variable "task_definition_arn" {
   description = "(Required) The full ARN of the task definition that you want to run in your service."
+  default     = ""
 }
 
 #------------------------------------------------------------------------------
