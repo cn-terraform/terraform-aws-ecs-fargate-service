@@ -39,6 +39,7 @@ resource "aws_ecs_service" "service" {
   enable_ecs_managed_tags            = var.enable_ecs_managed_tags
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
   launch_type                        = "FARGATE"
+  force_new_deployment               = var.force_new_deployment
   dynamic "load_balancer" {
     for_each = data.aws_lb_target_group.lb_http_target_groups
     content {
