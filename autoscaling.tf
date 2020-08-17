@@ -20,12 +20,12 @@ resource "aws_iam_role_policy" "ecs_autoscale_role_policy" {
 resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   alarm_name          = "${var.name_preffix}-cpu-high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "3"
+  evaluation_periods  = var.max_cpu_evaluation_period
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
-  period              = "60"
+  period              = var.max_cpu_period
   statistic           = "Maximum"
-  threshold           = "85"
+  threshold           = var.max_cpu_threshold
   dimensions = {
     ClusterName = var.ecs_cluster_name
     ServiceName = aws_ecs_service.service.name
@@ -39,12 +39,12 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
 resource "aws_cloudwatch_metric_alarm" "cpu_low" {
   alarm_name          = "${var.name_preffix}-cpu-low"
   comparison_operator = "LessThanOrEqualToThreshold"
-  evaluation_periods  = "3"
+  evaluation_periods  = var.min_cpu_evaluation_period
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
-  period              = "60"
+  period              = var.min_cpu_period
   statistic           = "Average"
-  threshold           = "10"
+  threshold           = var.min_cpu_threshold
   dimensions = {
     ClusterName = var.ecs_cluster_name
     ServiceName = aws_ecs_service.service.name
@@ -100,6 +100,6 @@ resource "aws_appautoscaling_target" "scale_target" {
   resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   role_arn           = aws_iam_role.ecs_autoscale_role.arn
-  min_capacity       = 1
-  max_capacity       = 5
+  min_capacity       = var.scale_target_min_capacity
+  max_capacity       = var.scale_target_max_capacity
 }
