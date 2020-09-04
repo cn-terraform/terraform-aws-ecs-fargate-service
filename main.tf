@@ -30,7 +30,7 @@ data "aws_lb_listener" "lb_https_listeners" {
 # AWS ECS SERVICE
 #------------------------------------------------------------------------------
 resource "aws_ecs_service" "service" {
-  name = "${var.name_preffix}-service"
+  name = "${var.name_prefix}-service"
   # capacity_provider_strategy - (Optional) The capacity provider strategy to use for the service. Can be one or more. Defined below.
   cluster                            = var.ecs_cluster_arn
   deployment_maximum_percent         = var.deployment_maximum_percent
@@ -88,7 +88,7 @@ resource "aws_ecs_service" "service" {
   }
   task_definition = var.task_definition_arn
   tags = {
-    Name = "${var.name_preffix}-ecs-tasks-sg"
+    Name = "${var.name_prefix}-ecs-tasks-sg"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_ecs_service" "service" {
 # AWS SECURITY GROUP - ECS Tasks, allow traffic only from Load Balancer
 #------------------------------------------------------------------------------
 resource "aws_security_group" "ecs_tasks_sg" {
-  name        = "${var.name_preffix}-ecs-tasks-sg"
+  name        = "${var.name_prefix}-ecs-tasks-sg"
   description = "Allow inbound access from the LB only"
   vpc_id      = var.vpc_id
   egress {
@@ -106,7 +106,7 @@ resource "aws_security_group" "ecs_tasks_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${var.name_preffix}-ecs-tasks-sg"
+    Name = "${var.name_prefix}-ecs-tasks-sg"
   }
 }
 

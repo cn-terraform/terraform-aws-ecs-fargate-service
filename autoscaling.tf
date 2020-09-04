@@ -2,12 +2,12 @@
 # AWS ECS Auto Scale Role
 #------------------------------------------------------------------------------
 resource "aws_iam_role" "ecs_autoscale_role" {
-  name               = "${var.name_preffix}-ecs-autoscale-role"
+  name               = "${var.name_prefix}-ecs-autoscale-role"
   assume_role_policy = file("${path.module}/files/iam/ecs_autoscale_iam_role.json")
 }
 
 resource "aws_iam_role_policy" "ecs_autoscale_role_policy" {
-  name = "${var.name_preffix}-ecs-autoscale-role-policy"
+  name = "${var.name_prefix}-ecs-autoscale-role-policy"
   role = aws_iam_role.ecs_autoscale_role.id
   policy = file(
     "${path.module}/files/iam/ecs_autoscale_iam_role_policy.json",
@@ -18,7 +18,7 @@ resource "aws_iam_role_policy" "ecs_autoscale_role_policy" {
 # AWS Auto Scaling - CloudWatch Alarm CPU High
 #------------------------------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "cpu_high" {
-  alarm_name          = "${var.name_preffix}-cpu-high"
+  alarm_name          = "${var.name_prefix}-cpu-high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = var.max_cpu_evaluation_period
   metric_name         = "CPUUtilization"
@@ -37,7 +37,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
 # AWS Auto Scaling - CloudWatch Alarm CPU Low
 #------------------------------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "cpu_low" {
-  alarm_name          = "${var.name_preffix}-cpu-low"
+  alarm_name          = "${var.name_prefix}-cpu-low"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = var.min_cpu_evaluation_period
   metric_name         = "CPUUtilization"
@@ -56,7 +56,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
 # AWS Auto Scaling - Scaling Up Policy
 #------------------------------------------------------------------------------
 resource "aws_appautoscaling_policy" "scale_up_policy" {
-  name               = "${var.name_preffix}-scale-up-policy"
+  name               = "${var.name_prefix}-scale-up-policy"
   depends_on         = [aws_appautoscaling_target.scale_target]
   service_namespace  = "ecs"
   resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
@@ -76,7 +76,7 @@ resource "aws_appautoscaling_policy" "scale_up_policy" {
 # AWS Auto Scaling - Scaling Down Policy
 #------------------------------------------------------------------------------
 resource "aws_appautoscaling_policy" "scale_down_policy" {
-  name               = "${var.name_preffix}-scale-down-policy"
+  name               = "${var.name_prefix}-scale-down-policy"
   depends_on         = [aws_appautoscaling_target.scale_target]
   service_namespace  = "ecs"
   resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
