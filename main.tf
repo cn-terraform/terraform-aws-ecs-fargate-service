@@ -30,7 +30,7 @@ data "aws_lb_listener" "lb_https_listeners" {
 # AWS ECS SERVICE
 #------------------------------------------------------------------------------
 resource "aws_ecs_service" "service" {
-  name                               = "${var.name_preffix}-service"
+  name = "${var.name_preffix}-service"
   # capacity_provider_strategy - (Optional) The capacity provider strategy to use for the service. Can be one or more. Defined below.
   cluster                            = var.ecs_cluster_arn
   deployment_maximum_percent         = var.deployment_maximum_percent

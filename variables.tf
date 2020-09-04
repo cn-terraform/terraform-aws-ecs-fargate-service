@@ -81,10 +81,10 @@ variable "task_definition_arn" {
   description = "(Required) The full ARN of the task definition that you want to run in your service."
 }
 
-variable "force_new_deployment"{
+variable "force_new_deployment" {
   description = "(Optional) Enable to force a new task deployment of the service. This can be used to update tasks to use a newer Docker image with same image/tag combination (e.g. myimage:latest), roll Fargate tasks onto a newer platform version, or immediately deploy ordered_placement_strategy and placement_constraints updates."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 #------------------------------------------------------------------------------
@@ -128,47 +128,47 @@ variable "ecs_cluster_name" {
 
 variable "max_cpu_threshold" {
   description = "Threshold for max CPU usage"
-  default = "85"
-  type = string
+  default     = "85"
+  type        = string
 }
 variable "min_cpu_threshold" {
   description = "Threshold for min CPU usage"
-  default = "10"
-  type = string
+  default     = "10"
+  type        = string
 }
 
-variable "max_cpu_evaluation_period"{
-    description = "The number of periods over which data is compared to the specified threshold for max cpu metric alarm"
-    default = "3"
-    type = string
+variable "max_cpu_evaluation_period" {
+  description = "The number of periods over which data is compared to the specified threshold for max cpu metric alarm"
+  default     = "3"
+  type        = string
 }
-variable "min_cpu_evaluation_period"{
-    description = "The number of periods over which data is compared to the specified threshold for min cpu metric alarm"
-    default = "3"
-    type = string
+variable "min_cpu_evaluation_period" {
+  description = "The number of periods over which data is compared to the specified threshold for min cpu metric alarm"
+  default     = "3"
+  type        = string
 }
 
-variable "max_cpu_period"{
-    description = "The period in seconds over which the specified statistic is applied for max cpu metric alarm"
-    default = "60"
-    type = string
+variable "max_cpu_period" {
+  description = "The period in seconds over which the specified statistic is applied for max cpu metric alarm"
+  default     = "60"
+  type        = string
 }
-variable "min_cpu_period"{
-    description = "The period in seconds over which the specified statistic is applied for min cpu metric alarm"
-    default = "60"
-    type = string
+variable "min_cpu_period" {
+  description = "The period in seconds over which the specified statistic is applied for min cpu metric alarm"
+  default     = "60"
+  type        = string
 }
 
 variable "scale_target_max_capacity" {
   description = "The max capacity of the scalable target"
-  default = 5
-  type = number
+  default     = 5
+  type        = number
 }
 
 variable "scale_target_min_capacity" {
   description = "The min capacity of the scalable target"
-  default = 1
-  type = number
+  default     = 1
+  type        = number
 }
 
 #------------------------------------------------------------------------------
@@ -191,12 +191,12 @@ variable "lb_https_tgs_arns" {
 
 variable "lb_http_listeners_arns" {
   description = "List of HTTP LB Listeners ARNs"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "lb_https_listeners_arns" {
   description = "List of HTTPS LB Listeners ARNs"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "load_balancer_sg_id" {
