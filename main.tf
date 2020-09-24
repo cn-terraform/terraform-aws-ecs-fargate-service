@@ -111,21 +111,21 @@ resource "aws_security_group" "ecs_tasks_sg" {
 }
 
 resource "aws_security_group_rule" "ingress_through_http" {
-  for_each                 = toset(data.aws_lb_target_group.lb_http_target_groups)
+  count                    = length(data.aws_lb_target_group.lb_http_target_groups)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
-  from_port                = each.value.port
-  to_port                  = each.value.port
+  from_port                = element(data.aws_lb_target_group.lb_http_target_groups.*.port, count.index)
+  to_port                  = element(data.aws_lb_target_group.lb_http_target_groups.*.port, count.index)
   protocol                 = "tcp"
   source_security_group_id = var.load_balancer_sg_id
 }
 
 resource "aws_security_group_rule" "ingress_through_https" {
-  for_each                 = toset(data.aws_lb_target_group.lb_https_target_groups)
+  for_each                 = length(data.aws_lb_target_group.lb_https_target_groups)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
-  from_port                = each.value.port
-  to_port                  = each.value.port
+  from_port                = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
+  to_port                  = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
   protocol                 = "tcp"
   source_security_group_id = var.load_balancer_sg_id
 }
