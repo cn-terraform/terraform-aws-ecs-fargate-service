@@ -7,23 +7,23 @@ data "aws_lb" "lb" {
 }
 
 data "aws_lb_target_group" "lb_http_target_groups" {
-  count = length(var.lb_http_tgs_arns)
-  arn   = element(var.lb_http_tgs_arns, count.index)
+  for_each = toset( var.lb_http_tgs_arns )
+  arn      = each.key
 }
 
 data "aws_lb_target_group" "lb_https_target_groups" {
-  count = length(var.lb_https_tgs_arns)
-  arn   = element(var.lb_https_tgs_arns, count.index)
+  for_each = toset( var.lb_https_tgs_arns )
+  arn      = each.key
 }
 
 data "aws_lb_listener" "lb_http_listeners" {
-  count = length(var.lb_http_listeners_arns)
-  arn   = element(var.lb_http_listeners_arns, count.index)
+  for_each = toset( var.lb_http_listeners_arns )
+  arn      = each.key
 }
 
 data "aws_lb_listener" "lb_https_listeners" {
-  count = length(var.lb_https_listeners_arns)
-  arn   = element(var.lb_https_listeners_arns, count.index)
+  for_each = toset( var.lb_https_listeners_arns )
+  arn      = each.key
 }
 
 #------------------------------------------------------------------------------
@@ -111,21 +111,21 @@ resource "aws_security_group" "ecs_tasks_sg" {
 }
 
 resource "aws_security_group_rule" "ingress_through_http" {
-  count                    = length(data.aws_lb_target_group.lb_http_target_groups)
+  for_each                 = toset( data.aws_lb_target_group.lb_http_target_groups )
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
-  from_port                = element(data.aws_lb_target_group.lb_http_target_groups.*.port, count.index)
-  to_port                  = element(data.aws_lb_target_group.lb_http_target_groups.*.port, count.index)
+  from_port                = each.key.port
+  to_port                  = each.key.port
   protocol                 = "tcp"
   source_security_group_id = var.load_balancer_sg_id
 }
 
 resource "aws_security_group_rule" "ingress_through_https" {
-  count                    = length(data.aws_lb_target_group.lb_https_target_groups)
+  for_each                 = toset( data.aws_lb_target_group.lb_https_target_groups )
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
-  from_port                = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
-  to_port                  = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
+  from_port                = each.key.port
+  to_port                  = each.key.port
   protocol                 = "tcp"
   source_security_group_id = var.load_balancer_sg_id
 }
