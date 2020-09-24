@@ -7,23 +7,23 @@ data "aws_lb" "lb" {
 }
 
 data "aws_lb_target_group" "lb_http_target_groups" {
-  count = length(var.lb_http_tgs_arns)
-  arn   = element(var.lb_http_tgs_arns, count.index)
+  for_each = toset(var.lb_http_tgs_arns)
+  arn   = element(var.lb_http_tgs_arns, each.key)
 }
 
 data "aws_lb_target_group" "lb_https_target_groups" {
-  count = length(var.lb_https_tgs_arns)
-  arn   = element(var.lb_https_tgs_arns, count.index)
+  for_each = toset(var.lb_https_tgs_arns)
+  arn   = element(var.lb_https_tgs_arns, each.key)
 }
 
 data "aws_lb_listener" "lb_http_listeners" {
-  count = length(var.lb_http_listeners_arns)
-  arn   = element(var.lb_http_listeners_arns, count.index)
+  for_each = toset(var.lb_http_listeners_arns)
+  arn   = element(var.lb_http_listeners_arns, each.key)
 }
 
 data "aws_lb_listener" "lb_https_listeners" {
-  count = length(var.lb_https_listeners_arns)
-  arn   = element(var.lb_https_listeners_arns, count.index)
+  for_each = toset(var.lb_https_listeners_arns)
+  arn   = element(var.lb_https_listeners_arns, each.key)
 }
 
 #------------------------------------------------------------------------------
