@@ -20,7 +20,7 @@ module "base-network" {
 
 module "load_balancer" {
   source          = "cn-terraform/ecs-alb/aws"
-  version         = "1.0.5"
+  version         = "1.0.6"
   name_prefix     = "test-alb"
   vpc_id          = module.base-network.vpc_id
   private_subnets = module.base-network.private_subnets_ids
@@ -48,6 +48,8 @@ module "service" {
   lb_arn                  = module.load_balancer.aws_lb_lb_arn
   lb_http_tgs_arns        = module.load_balancer.lb_http_tgs_arns
   lb_https_tgs_arns       = module.load_balancer.lb_https_tgs_arns
+  lb_http_tgs_ports       = module.load_balancer.lb_http_tgs_ports
+  lb_https_tgs_ports      = module.load_balancer.lb_https_tgs_ports
   lb_http_listeners_arns  = module.load_balancer.lb_http_listeners_arns
   lb_https_listeners_arns = module.load_balancer.lb_https_listeners_arns
   load_balancer_sg_id     = module.load_balancer.aws_security_group_lb_access_sg_id

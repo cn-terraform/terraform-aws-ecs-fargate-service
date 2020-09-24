@@ -184,8 +184,18 @@ variable "lb_http_tgs_arns" {
   type        = list(string)
 }
 
+variable "lb_http_tgs_ports" {
+  description = "List of HTTP LB Target Group Ports"
+  type        = list(string)
+}
+
 variable "lb_https_tgs_arns" {
   description = "List of HTTPS LB Target Group ARNs"
+  type        = list(string)
+}
+
+variable "lb_https_tgs_ports" {
+  description = "List of HTTPS LB Target Group Ports"
   type        = list(string)
 }
 

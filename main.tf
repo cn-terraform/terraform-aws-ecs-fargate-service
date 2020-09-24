@@ -111,7 +111,7 @@ resource "aws_security_group" "ecs_tasks_sg" {
 }
 
 resource "aws_security_group_rule" "ingress_through_http" {
-  for_each                 = data.aws_lb_target_group.lb_http_target_groups != null ? toset(data.aws_lb_target_group.lb_http_target_groups.*.port) : toset([])
+  for_each                 = var.lb_http_tgs_ports != null ? toset(var.lb_http_tgs_ports) : toset([])
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key
@@ -121,7 +121,7 @@ resource "aws_security_group_rule" "ingress_through_http" {
 }
 
 resource "aws_security_group_rule" "ingress_through_https" {
-  for_each                 = data.aws_lb_target_group.lb_https_target_groups != null ? toset(data.aws_lb_target_group.lb_https_target_groups.*.port) : toset([])
+  for_each                 = var.lb_https_tgs_ports != null ? toset(var.lb_https_tgs_ports) : toset([])
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key
