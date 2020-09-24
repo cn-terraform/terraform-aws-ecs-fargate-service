@@ -121,7 +121,7 @@ resource "aws_security_group_rule" "ingress_through_http" {
 }
 
 resource "aws_security_group_rule" "ingress_through_https" {
-  for_each                 = length(data.aws_lb_target_group.lb_https_target_groups)
+  count                    = length(data.aws_lb_target_group.lb_https_target_groups)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = element(data.aws_lb_target_group.lb_https_target_groups.*.port, count.index)
