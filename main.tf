@@ -7,22 +7,22 @@ data "aws_lb" "lb" {
 }
 
 data "aws_lb_target_group" "lb_http_target_groups" {
-  for_each = toset( var.lb_http_tgs_arns )
+  for_each = toset(var.lb_http_tgs_arns)
   arn      = each.key
 }
 
 data "aws_lb_target_group" "lb_https_target_groups" {
-  for_each = toset( var.lb_https_tgs_arns )
+  for_each = toset(var.lb_https_tgs_arns)
   arn      = each.key
 }
 
 data "aws_lb_listener" "lb_http_listeners" {
-  for_each = toset( var.lb_http_listeners_arns )
+  for_each = toset(var.lb_http_listeners_arns)
   arn      = each.key
 }
 
 data "aws_lb_listener" "lb_https_listeners" {
-  for_each = toset( var.lb_https_listeners_arns )
+  for_each = toset(var.lb_https_listeners_arns)
   arn      = each.key
 }
 
@@ -111,7 +111,7 @@ resource "aws_security_group" "ecs_tasks_sg" {
 }
 
 resource "aws_security_group_rule" "ingress_through_http" {
-  for_each                 = toset( data.aws_lb_target_group.lb_http_target_groups )
+  for_each                 = toset(data.aws_lb_target_group.lb_http_target_groups)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key.port
@@ -121,7 +121,7 @@ resource "aws_security_group_rule" "ingress_through_http" {
 }
 
 resource "aws_security_group_rule" "ingress_through_https" {
-  for_each                 = toset( data.aws_lb_target_group.lb_https_target_groups )
+  for_each                 = toset(data.aws_lb_target_group.lb_https_target_groups)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key.port
