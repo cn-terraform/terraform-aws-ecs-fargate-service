@@ -1,20 +1,4 @@
 #------------------------------------------------------------------------------
-# AWS ECS Auto Scale Role
-#------------------------------------------------------------------------------
-resource "aws_iam_role" "ecs_autoscale_role" {
-  name               = "${var.name_prefix}-ecs-autoscale-role"
-  assume_role_policy = file("${path.module}/files/iam/ecs_autoscale_iam_role.json")
-}
-
-resource "aws_iam_role_policy" "ecs_autoscale_role_policy" {
-  name = "${var.name_prefix}-ecs-autoscale-role-policy"
-  role = aws_iam_role.ecs_autoscale_role.id
-  policy = file(
-    "${path.module}/files/iam/ecs_autoscale_iam_role_policy.json",
-  )
-}
-
-#------------------------------------------------------------------------------
 # AWS Auto Scaling - CloudWatch Alarm CPU High
 #------------------------------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "cpu_high" {
@@ -99,7 +83,6 @@ resource "aws_appautoscaling_target" "scale_target" {
   service_namespace  = "ecs"
   resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
-  role_arn           = aws_iam_role.ecs_autoscale_role.arn
   min_capacity       = var.scale_target_min_capacity
   max_capacity       = var.scale_target_max_capacity
 }
