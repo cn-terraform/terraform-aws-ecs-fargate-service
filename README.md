@@ -2,7 +2,7 @@
 
 This Terraform module deploys an AWS ECS Fargate service.
 
-[![CircleCI](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-service/tree/master.svg?style=svg)](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-service/tree/master)
+[![CircleCI](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-service/tree/main.svg?style=svg)](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-service/tree/main)
 [![](https://img.shields.io/github/license/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
 [![](https://img.shields.io/github/issues/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
 [![](https://img.shields.io/github/issues-closed/cn-terraform/terraform-aws-ecs-fargate-service)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-service)
