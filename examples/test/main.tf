@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 module "cluster" {
   source  = "cn-terraform/ecs-cluster/aws"
   version = "1.0.6"
