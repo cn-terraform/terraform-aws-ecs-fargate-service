@@ -1,28 +1,13 @@
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
-
-data "aws_lb" "lb" {
-  arn = var.lb_arn
-}
-
 data "aws_lb_target_group" "lb_http_target_groups" {
-  for_each = var.lb_http_tgs_arns != null ? toset(var.lb_http_tgs_arns) : toset([])
+  for_each = toset(var.lb_http_tgs_arns)
   arn      = each.key
 }
 
 data "aws_lb_target_group" "lb_https_target_groups" {
   for_each = toset(var.lb_https_tgs_arns)
-  arn      = each.key
-}
-
-data "aws_lb_listener" "lb_http_listeners" {
-  for_each = var.lb_http_listeners_arns != null ? toset(var.lb_http_listeners_arns) : toset([])
-  arn      = each.key
-}
-
-data "aws_lb_listener" "lb_https_listeners" {
-  for_each = var.lb_https_listeners_arns != null ? toset(var.lb_https_listeners_arns) : toset([])
   arn      = each.key
 }
 
