@@ -1,14 +1,45 @@
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
-data "aws_lb_target_group" "lb_http_target_groups" {
-  for_each = toset(var.lb_http_tgs_arns)
-  arn      = each.key
-}
+module "ecs-alb" {
+  source  = "cn-terraform/ecs-alb/aws"
+  version = "1.0.7"
 
-data "aws_lb_target_group" "lb_https_target_groups" {
-  for_each = toset(var.lb_https_tgs_arns)
-  arn      = each.key
+  name_prefix = "${var.name_prefix}"
+  vpc_id      = var.vpc_id
+
+  # Application Load Balancer
+  internal                         = var.lb_internal
+  security_groups                  = var.lb_security_groups
+  drop_invalid_header_fields       = var.lb_drop_invalid_header_fields
+  private_subnets                  = var.private_subnets
+  public_subnets                   = var.public_subnets
+  idle_timeout                     = var.lb_idle_timeout
+  enable_deletion_protection       = var.lb_enable_deletion_protection
+  enable_cross_zone_load_balancing = var.lb_enable_cross_zone_load_balancing
+  enable_http2                     = var.lb_enable_http2
+  ip_address_type                  = var.lb_ip_address_type
+
+  # Access Control to Application Load Balancer
+  http_ports                    = var.lb_http_ports
+  http_ingress_cidr_blocks      = var.lb_http_ingress_cidr_blocks
+  http_ingress_prefix_list_ids  = var.lb_http_ingress_prefix_list_ids
+  https_ports                   = var.lb_https_ports
+  https_ingress_cidr_blocks     = var.lb_https_ingress_cidr_blocks
+  https_ingress_prefix_list_ids = var.lb_https_ingress_prefix_list_ids
+
+  # Target Groups
+  deregistration_delay                          = var.lb_deregistration_delay
+  slow_start                                    = var.lb_slow_start
+  load_balancing_algorithm_type                 = var.lb_load_balancing_algorithm_type
+  stickiness                                    = var.lb_stickiness
+  target_group_health_check_enabled             = var.lb_target_group_health_check_enabled
+  target_group_health_check_interval            = var.lb_target_group_health_check_interval
+  target_group_health_check_path                = var.lb_target_group_health_check_path
+  target_group_health_check_timeout             = var.lb_target_group_health_check_timeout
+  target_group_health_check_healthy_threshold   = var.lb_target_group_health_check_healthy_threshold
+  target_group_health_check_unhealthy_threshold = var.lb_target_group_health_check_unhealthy_threshold
+  target_group_health_check_matcher             = var.lb_target_group_health_check_matcher
 }
 
 #------------------------------------------------------------------------------
@@ -25,20 +56,21 @@ resource "aws_ecs_service" "service" {
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
   launch_type                        = "FARGATE"
   force_new_deployment               = var.force_new_deployment
+
   dynamic "load_balancer" {
-    for_each = data.aws_lb_target_group.lb_http_target_groups
+    for_each = module.ecs-alb.lb_http_tgs_map_arn_port
     content {
-      target_group_arn = load_balancer.value.arn
+      target_group_arn = each.key
       container_name   = var.container_name
-      container_port   = load_balancer.value.port
+      container_port   = each.value
     }
   }
   dynamic "load_balancer" {
-    for_each = data.aws_lb_target_group.lb_https_target_groups
+    for_each = module.ecs-alb.lb_https_tgs_map_arn_port
     content {
-      target_group_arn = load_balancer.value.arn
+      target_group_arn = each.key
       container_name   = var.container_name
-      container_port   = load_balancer.value.port
+      container_port   = each.value
     }
   }
   network_configuration {
@@ -84,33 +116,37 @@ resource "aws_security_group" "ecs_tasks_sg" {
   name        = "${var.name_prefix}-ecs-tasks-sg"
   description = "Allow inbound access from the LB only"
   vpc_id      = var.vpc_id
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+
   tags = {
     Name = "${var.name_prefix}-ecs-tasks-sg"
   }
 }
 
+resource "aws_security_group_rule" "egress" {
+  security_group_id = aws_security_group.ecs_tasks_sg.id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "ingress_through_http" {
-  for_each                 = var.lb_http_tgs_ports != null ? toset(var.lb_http_tgs_ports) : toset([])
+  for_each                 = toset(module.ecs-alb.lb_http_tgs_ports)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key
   to_port                  = each.key
   protocol                 = "tcp"
-  source_security_group_id = var.load_balancer_sg_id
+  source_security_group_id = module.ecs-alb.aws_security_group_lb_access_sg_id
 }
 
 resource "aws_security_group_rule" "ingress_through_https" {
-  for_each                 = var.lb_https_tgs_ports != null ? toset(var.lb_https_tgs_ports) : toset([])
+  for_each                 = toset(module.ecs-alb.lb_https_tgs_ports)
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key
   to_port                  = each.key
   protocol                 = "tcp"
-  source_security_group_id = var.load_balancer_sg_id
+  source_security_group_id = module.ecs-alb.aws_security_group_lb_access_sg_id
 }

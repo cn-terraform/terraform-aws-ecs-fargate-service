@@ -14,17 +14,6 @@ module "base-network" {
   private_subnets_cidrs_per_availability_zone = ["192.168.128.0/19", "192.168.160.0/19", "192.168.192.0/19", "192.168.224.0/19"]
 }
 
-module "load_balancer" {
-  source = "../../../terraform-aws-ecs-alb"
-
-  # source          = "cn-terraform/ecs-alb/aws"
-  # version         = "1.0.6"
-  name_prefix     = "test-alb"
-  vpc_id          = module.base-network.vpc_id
-  private_subnets = module.base-network.private_subnets_ids
-  public_subnets  = module.base-network.public_subnets_ids
-}
-
 module "td" {
   source          = "cn-terraform/ecs-fargate-task-definition/aws"
   version         = "1.0.16"
@@ -34,21 +23,13 @@ module "td" {
 }
 
 module "service" {
-  source                  = "../../"
-  name_prefix             = "test-service"
-  vpc_id                  = module.base-network.vpc_id
-  ecs_cluster_arn         = module.cluster.aws_ecs_cluster_cluster_arn
-  task_definition_arn     = module.td.aws_ecs_task_definition_td_arn
-  public_subnets          = module.base-network.public_subnets_ids
-  private_subnets         = module.base-network.private_subnets_ids
-  container_name          = "test"
-  ecs_cluster_name        = module.cluster.aws_ecs_cluster_cluster_name
-  lb_arn                  = module.load_balancer.aws_lb_lb_arn
-  lb_http_tgs_arns        = module.load_balancer.lb_http_tgs_arns
-  lb_https_tgs_arns       = module.load_balancer.lb_https_tgs_arns
-  lb_http_tgs_ports       = module.load_balancer.lb_http_tgs_ports
-  lb_https_tgs_ports      = module.load_balancer.lb_https_tgs_ports
-  lb_http_listeners_arns  = module.load_balancer.lb_http_listeners_arns
-  lb_https_listeners_arns = module.load_balancer.lb_https_listeners_arns
-  load_balancer_sg_id     = module.load_balancer.aws_security_group_lb_access_sg_id
+  source              = "../../"
+  name_prefix         = "test-service"
+  vpc_id              = module.base-network.vpc_id
+  ecs_cluster_arn     = module.cluster.aws_ecs_cluster_cluster_arn
+  task_definition_arn = module.td.aws_ecs_task_definition_td_arn
+  public_subnets      = module.base-network.public_subnets_ids
+  private_subnets     = module.base-network.private_subnets_ids
+  container_name      = "test"
+  ecs_cluster_name    = module.cluster.aws_ecs_cluster_cluster_name
 }
