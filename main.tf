@@ -150,3 +150,22 @@ resource "aws_security_group_rule" "ingress_through_https" {
   protocol                 = "tcp"
   source_security_group_id = module.ecs-alb.aws_security_group_lb_access_sg_id
 }
+
+module "ecs-autoscaling" {
+  count = var.enable_autoscaling ? 1 : 0
+
+  source  = "cn-terraform/ecs-service-autoscaling/aws"
+  version = "1.0.0"
+
+  name_prefix               = var.name_prefix
+  ecs_cluster_name          = var.ecs_cluster_name
+  ecs_service_name          = aws_ecs_service.service.name
+  max_cpu_threshold         = var.max_cpu_threshold
+  min_cpu_threshold         = var.min_cpu_threshold
+  max_cpu_evaluation_period = var.max_cpu_evaluation_period
+  min_cpu_evaluation_period = var.min_cpu_evaluation_period
+  max_cpu_period            = var.max_cpu_period
+  min_cpu_period            = var.min_cpu_period
+  scale_target_max_capacity = var.scale_target_max_capacity
+  scale_target_min_capacity = var.scale_target_min_capacity
+}

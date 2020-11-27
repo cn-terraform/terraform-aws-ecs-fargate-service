@@ -122,8 +122,16 @@ variable "container_name" {
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE AUTOSCALING
 #------------------------------------------------------------------------------
+variable "enable_autoscaling" {
+  description = "(Optional) If true, autoscaling alarms will be created."
+  type        = bool
+  default     = true
+}
+
 variable "ecs_cluster_name" {
-  description = "Name of the ECS cluster"
+  description = "(Optional) Name of the ECS cluster. Required only if autoscaling is enabled"
+  type        = string
+  default     = null
 }
 
 variable "max_cpu_threshold" {
@@ -173,9 +181,6 @@ variable "scale_target_min_capacity" {
 
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER
-#------------------------------------------------------------------------------
-#------------------------------------------------------------------------------
-# APPLICATION LOAD BALANCER
 #------------------------------------------------------------------------------
 variable "lb_internal" {
   description = "(Optional) If true, the LB will be internal."
