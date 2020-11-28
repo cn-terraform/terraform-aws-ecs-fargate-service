@@ -60,17 +60,17 @@ resource "aws_ecs_service" "service" {
   dynamic "load_balancer" {
     for_each = module.ecs-alb.lb_http_tgs_map_arn_port
     content {
-      target_group_arn = each.key
+      target_group_arn = load_balancer.key
       container_name   = var.container_name
-      container_port   = each.value
+      container_port   = load_balancer.value
     }
   }
   dynamic "load_balancer" {
     for_each = module.ecs-alb.lb_https_tgs_map_arn_port
     content {
-      target_group_arn = each.key
+      target_group_arn = load_balancer.key
       container_name   = var.container_name
-      container_port   = each.value
+      container_port   = load_balancer.value
     }
   }
   network_configuration {
