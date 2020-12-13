@@ -40,7 +40,22 @@ module "ecs-alb" {
   target_group_health_check_healthy_threshold   = var.lb_target_group_health_check_healthy_threshold
   target_group_health_check_unhealthy_threshold = var.lb_target_group_health_check_unhealthy_threshold
   target_group_health_check_matcher             = var.lb_target_group_health_check_matcher
+
+  # Certificates
+  default_certificate_arn                         = var.default_certificate_arn
+  ssl_policy                                      = var.ssl_policy
+  additional_certificates_arn_for_https_listeners = var.additional_certificates_arn_for_https_listeners
 }
+
+
+default_certificate_arn string
+Description: (Optional) The ARN of the default SSL server certificate. Required if var.https_ports is set.
+ssl_policy string
+Description: (Optional) The name of the SSL Policy for the listener. . Required if var.https_ports is set.
+
+additional_certificates_arn_for_https_listeners list
+Description: (Optional) List of SSL server certificate ARNs for HTTPS listener. Use it if you need to set additional certificates besides default_certificate_arn
+Default: []
 
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE

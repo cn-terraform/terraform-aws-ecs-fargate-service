@@ -355,3 +355,24 @@ variable "lb_target_group_health_check_matcher" {
   type        = string
   default     = "200"
 }
+
+#------------------------------------------------------------------------------
+# AWS LOAD BALANCER - Target Groups
+#------------------------------------------------------------------------------
+variable "ssl_policy" {
+  description = "(Optional) The name of the SSL Policy for the listener. . Required if var.https_ports is set."
+  type        = string
+  default     = null
+}
+
+variable "default_certificate_arn" {
+  description = "(Optional) The ARN of the default SSL server certificate. Required if var.https_ports is set."
+  type        = string
+  default     = null
+}
+
+variable "additional_certificates_arn_for_https_listeners" {
+  description = "(Optional) List of SSL server certificate ARNs for HTTPS listener. Use it if you need to set additional certificates besides default_certificate_arn"
+  type        = list
+  default     = []
+}
