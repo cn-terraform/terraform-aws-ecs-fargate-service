@@ -47,16 +47,6 @@ module "ecs-alb" {
   additional_certificates_arn_for_https_listeners = var.additional_certificates_arn_for_https_listeners
 }
 
-
-default_certificate_arn string
-Description: (Optional) The ARN of the default SSL server certificate. Required if var.https_ports is set.
-ssl_policy string
-Description: (Optional) The name of the SSL Policy for the listener. . Required if var.https_ports is set.
-
-additional_certificates_arn_for_https_listeners list
-Description: (Optional) List of SSL server certificate ARNs for HTTPS listener. Use it if you need to set additional certificates besides default_certificate_arn
-Default: []
-
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE
 #------------------------------------------------------------------------------
