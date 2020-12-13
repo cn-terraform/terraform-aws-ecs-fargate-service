@@ -51,12 +51,12 @@ variable "health_check_grace_period_seconds" {
 
 variable "ordered_placement_strategy" {
   description = "(Optional) Service level strategy rules that are taken into consideration during task placement. List from top to bottom in order of precedence. The maximum number of ordered_placement_strategy blocks is 5. This is a list of maps where each map should contain \"id\" and \"field\""
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "placement_constraints" {
-  type        = list
+  type        = list(any)
   description = "(Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain \"type\" and \"expression\""
   default     = []
 }
@@ -73,7 +73,7 @@ variable "propagate_tags" {
 
 variable "service_registries" {
   description = "(Optional) The service discovery registries for the service. The maximum number of service_registries blocks is 1. This is a map that should contain the following fields \"registry_arn\", \"port\", \"container_port\" and \"container_name\""
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -92,17 +92,17 @@ variable "force_new_deployment" {
 #------------------------------------------------------------------------------
 variable "public_subnets" {
   description = "The public subnets associated with the task or service."
-  type        = list
+  type        = list(any)
 }
 
 variable "private_subnets" {
   description = "The private subnets associated with the task or service."
-  type        = list
+  type        = list(any)
 }
 
 variable "security_groups" {
   description = "(Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used."
-  type        = list
+  type        = list(any)
   default     = []
 }
 
@@ -235,7 +235,7 @@ variable "lb_ip_address_type" {
 #------------------------------------------------------------------------------
 variable "lb_http_ports" {
   description = "Map containing objects with two fields, listener_port and the target_group_port to redirect HTTP requests"
-  type        = map
+  type        = map(any)
   default = {
     default_http = {
       listener_port     = 80
@@ -258,7 +258,7 @@ variable "lb_http_ingress_prefix_list_ids" {
 
 variable "lb_https_ports" {
   description = "Map containing objects with two fields, listener_port and the target_group_port to redirect HTTPS requests"
-  type        = map
+  type        = map(any)
   default = {
     default_http = {
       listener_port     = 443
@@ -373,6 +373,6 @@ variable "default_certificate_arn" {
 
 variable "additional_certificates_arn_for_https_listeners" {
   description = "(Optional) List of SSL server certificate ARNs for HTTPS listener. Use it if you need to set additional certificates besides default_certificate_arn"
-  type        = list
+  type        = list(any)
   default     = []
 }
