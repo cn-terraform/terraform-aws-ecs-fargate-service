@@ -376,3 +376,12 @@ variable "additional_certificates_arn_for_https_listeners" {
   type        = list(any)
   default     = []
 }
+
+#------------------------------------------------------------------------------
+# S3 bucket
+#------------------------------------------------------------------------------
+variable "block_s3_bucket_public_access" {
+  description = "(Optional) If true, public access to the S3 bucket will be blocked."
+  type        = bool
+  default     = false
+}
