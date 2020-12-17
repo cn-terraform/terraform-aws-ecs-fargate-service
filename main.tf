@@ -9,7 +9,7 @@ module "ecs-alb" {
   vpc_id      = var.vpc_id
 
   # S3 Bucket
-  block_s3_bucket_public_access    = var.block_s3_bucket_public_access
+  block_s3_bucket_public_access = var.block_s3_bucket_public_access
 
   # Application Load Balancer
   internal                         = var.lb_internal
