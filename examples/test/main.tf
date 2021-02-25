@@ -16,7 +16,7 @@ module "base-network" {
 
 module "td" {
   source          = "cn-terraform/ecs-fargate-task-definition/aws"
-  version         = "1.0.20"
+  version         = "1.0.21"
   name_prefix     = "test-td"
   container_image = "ubuntu"
   container_name  = "test"
