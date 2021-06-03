@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------
 module "ecs-alb" {
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.8"
+  version = "1.0.9"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
@@ -48,6 +48,9 @@ module "ecs-alb" {
   default_certificate_arn                         = var.default_certificate_arn
   ssl_policy                                      = var.ssl_policy
   additional_certificates_arn_for_https_listeners = var.additional_certificates_arn_for_https_listeners
+
+  # Optional tags
+  tags = var.tags
 }
 
 #------------------------------------------------------------------------------
@@ -112,9 +115,12 @@ resource "aws_ecs_service" "service" {
     }
   }
   task_definition = var.task_definition_arn
-  tags = {
-    Name = "${var.name_prefix}-ecs-tasks-sg"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.name_prefix}-ecs-tasks-sg"
+    },
+  )
 }
 
 #------------------------------------------------------------------------------
@@ -125,9 +131,12 @@ resource "aws_security_group" "ecs_tasks_sg" {
   description = "Allow inbound access from the LB only"
   vpc_id      = var.vpc_id
 
-  tags = {
-    Name = "${var.name_prefix}-ecs-tasks-sg"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.name_prefix}-ecs-tasks-sg"
+    },
+  )
 }
 
 resource "aws_security_group_rule" "egress" {
@@ -163,7 +172,7 @@ module "ecs-autoscaling" {
   count = var.enable_autoscaling ? 1 : 0
 
   source  = "cn-terraform/ecs-service-autoscaling/aws"
-  version = "1.0.1"
+  version = "1.0.2"
 
   name_prefix               = var.name_prefix
   ecs_cluster_name          = var.ecs_cluster_name
@@ -176,4 +185,5 @@ module "ecs-autoscaling" {
   min_cpu_period            = var.min_cpu_period
   scale_target_max_capacity = var.scale_target_max_capacity
   scale_target_min_capacity = var.scale_target_min_capacity
+  tags                      = var.tags
 }
