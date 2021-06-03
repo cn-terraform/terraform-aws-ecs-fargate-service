@@ -48,6 +48,9 @@ module "ecs-alb" {
   default_certificate_arn                         = var.default_certificate_arn
   ssl_policy                                      = var.ssl_policy
   additional_certificates_arn_for_https_listeners = var.additional_certificates_arn_for_https_listeners
+
+  # Optional tags
+  tags = var.tags
 }
 
 #------------------------------------------------------------------------------
@@ -112,9 +115,12 @@ resource "aws_ecs_service" "service" {
     }
   }
   task_definition = var.task_definition_arn
-  tags = {
-    Name = "${var.name_prefix}-ecs-tasks-sg"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.name_prefix}-ecs-tasks-sg"
+    },
+  )
 }
 
 #------------------------------------------------------------------------------
@@ -125,9 +131,12 @@ resource "aws_security_group" "ecs_tasks_sg" {
   description = "Allow inbound access from the LB only"
   vpc_id      = var.vpc_id
 
-  tags = {
-    Name = "${var.name_prefix}-ecs-tasks-sg"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.name_prefix}-ecs-tasks-sg"
+    },
+  )
 }
 
 resource "aws_security_group_rule" "egress" {
@@ -176,4 +185,5 @@ module "ecs-autoscaling" {
   min_cpu_period            = var.min_cpu_period
   scale_target_max_capacity = var.scale_target_max_capacity
   scale_target_min_capacity = var.scale_target_min_capacity
+  tags                      = var.tags
 }

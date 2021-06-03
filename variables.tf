@@ -37,6 +37,12 @@ variable "desired_count" {
   default     = 1
 }
 
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Resource tags"
+}
+
 variable "enable_ecs_managed_tags" {
   description = "(Optional) Specifies whether to enable Amazon ECS managed tags for the tasks within the service."
   type        = bool
