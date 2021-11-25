@@ -96,6 +96,12 @@ resource "aws_ecs_service" "service" {
       field = lookup(ordered_placement_strategy.value, "field", null)
     }
   }
+  dynamic "deployment_controller" {
+    for_each = var.deployment_controller
+    content {
+      type  = deployment_controller.value.type
+    }
+  }
   dynamic "placement_constraints" {
     for_each = var.placement_constraints
     content {

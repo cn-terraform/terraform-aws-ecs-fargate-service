@@ -61,6 +61,12 @@ variable "ordered_placement_strategy" {
   default     = []
 }
 
+variable "deployment_controller" {
+  description = "(Optional) Deployment controller"
+  type        = list
+  default     = []
+}
+
 variable "placement_constraints" {
   type        = list(any)
   description = "(Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain \"type\" and \"expression\""
@@ -85,6 +91,7 @@ variable "service_registries" {
 
 variable "task_definition_arn" {
   description = "(Required) The full ARN of the task definition that you want to run in your service."
+  default     = ""
 }
 
 variable "force_new_deployment" {
