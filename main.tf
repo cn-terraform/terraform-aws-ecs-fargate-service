@@ -99,7 +99,7 @@ resource "aws_ecs_service" "service" {
   dynamic "deployment_controller" {
     for_each = var.deployment_controller
     content {
-      type  = deployment_controller.value.type
+      type = deployment_controller.value.type
     }
   }
   dynamic "placement_constraints" {
