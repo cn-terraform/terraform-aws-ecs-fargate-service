@@ -63,7 +63,7 @@ variable "ordered_placement_strategy" {
 
 variable "deployment_controller" {
   description = "(Optional) Deployment controller"
-  type        = list
+  type        = list(string)
   default     = []
 }
 
