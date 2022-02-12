@@ -53,12 +53,14 @@ In order to run all checks at any point run the following command:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 3.74.1 |
+| <a name="requirement_local"></a> [local](#requirement\_local) | 2.1.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.1 |
 
 ## Modules
 
@@ -71,11 +73,11 @@ In order to run all checks at any point run the following command:
 
 | Name | Type |
 |------|------|
-| [aws_ecs_service.service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
-| [aws_security_group.ecs_tasks_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group_rule.egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.ingress_through_http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.ingress_through_https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_ecs_service.service](https://registry.terraform.io/providers/hashicorp/aws/3.74.1/docs/resources/ecs_service) | resource |
+| [aws_security_group.ecs_tasks_sg](https://registry.terraform.io/providers/hashicorp/aws/3.74.1/docs/resources/security_group) | resource |
+| [aws_security_group_rule.egress](https://registry.terraform.io/providers/hashicorp/aws/3.74.1/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.ingress_through_http](https://registry.terraform.io/providers/hashicorp/aws/3.74.1/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.ingress_through_https](https://registry.terraform.io/providers/hashicorp/aws/3.74.1/docs/resources/security_group_rule) | resource |
 
 ## Inputs
 
@@ -86,6 +88,7 @@ In order to run all checks at any point run the following command:
 | <a name="input_block_s3_bucket_public_access"></a> [block\_s3\_bucket\_public\_access](#input\_block\_s3\_bucket\_public\_access) | (Optional) If true, public access to the S3 bucket will be blocked. | `bool` | `false` | no |
 | <a name="input_container_name"></a> [container\_name](#input\_container\_name) | Name of the running container | `any` | n/a | yes |
 | <a name="input_default_certificate_arn"></a> [default\_certificate\_arn](#input\_default\_certificate\_arn) | (Optional) The ARN of the default SSL server certificate. Required if var.https\_ports is set. | `string` | `null` | no |
+| <a name="input_deployment_controller"></a> [deployment\_controller](#input\_deployment\_controller) | (Optional) Deployment controller | `list(string)` | `[]` | no |
 | <a name="input_deployment_maximum_percent"></a> [deployment\_maximum\_percent](#input\_deployment\_maximum\_percent) | (Optional) The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. | `number` | `200` | no |
 | <a name="input_deployment_minimum_healthy_percent"></a> [deployment\_minimum\_healthy\_percent](#input\_deployment\_minimum\_healthy\_percent) | (Optional) The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment. | `number` | `100` | no |
 | <a name="input_desired_count"></a> [desired\_count](#input\_desired\_count) | (Optional) The number of instances of the task definition to place and keep running. Defaults to 0. | `number` | `1` | no |
