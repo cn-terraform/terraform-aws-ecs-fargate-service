@@ -124,6 +124,12 @@ variable "assign_public_ip" {
   default     = false
 }
 
+variable "ecs_tasks_sg_allow_egress_to_anywhere" {
+  description = "(Optional) If true an egress rule will be created to allow traffic to anywhere (0.0.0.0/0). If false no egress rule will be created. Defaults to true"
+  type        = bool
+  default     = true
+}
+
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE load_balancer BLOCK
 #------------------------------------------------------------------------------

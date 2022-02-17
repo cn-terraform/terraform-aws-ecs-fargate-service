@@ -146,6 +146,7 @@ resource "aws_security_group" "ecs_tasks_sg" {
 }
 
 resource "aws_security_group_rule" "egress" {
+  count             = var.ecs_tasks_sg_allow_egress_to_anywhere ? 1 : 0
   security_group_id = aws_security_group.ecs_tasks_sg.id
   type              = "egress"
   from_port         = 0
