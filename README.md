@@ -67,7 +67,7 @@ In order to run all checks at any point run the following command:
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.13 |
-| <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.4 |
+| <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.5 |
 
 ## Resources
 
@@ -94,6 +94,7 @@ In order to run all checks at any point run the following command:
 | <a name="input_desired_count"></a> [desired\_count](#input\_desired\_count) | (Optional) The number of instances of the task definition to place and keep running. Defaults to 0. | `number` | `1` | no |
 | <a name="input_ecs_cluster_arn"></a> [ecs\_cluster\_arn](#input\_ecs\_cluster\_arn) | ARN of an ECS cluster | `any` | n/a | yes |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | (Optional) Name of the ECS cluster. Required only if autoscaling is enabled | `string` | `null` | no |
+| <a name="input_ecs_tasks_sg_allow_egress_to_anywhere"></a> [ecs\_tasks\_sg\_allow\_egress\_to\_anywhere](#input\_ecs\_tasks\_sg\_allow\_egress\_to\_anywhere) | (Optional) If true an egress rule will be created to allow traffic to anywhere (0.0.0.0/0). If false no egress rule will be created. Defaults to true | `bool` | `true` | no |
 | <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | (Optional) If true, autoscaling alarms will be created. | `bool` | `true` | no |
 | <a name="input_enable_ecs_managed_tags"></a> [enable\_ecs\_managed\_tags](#input\_enable\_ecs\_managed\_tags) | (Optional) Specifies whether to enable Amazon ECS managed tags for the tasks within the service. | `bool` | `false` | no |
 | <a name="input_force_new_deployment"></a> [force\_new\_deployment](#input\_force\_new\_deployment) | (Optional) Enable to force a new task deployment of the service. This can be used to update tasks to use a newer Docker image with same image/tag combination (e.g. myimage:latest), roll Fargate tasks onto a newer platform version, or immediately deploy ordered\_placement\_strategy and placement\_constraints updates. | `bool` | `false` | no |
