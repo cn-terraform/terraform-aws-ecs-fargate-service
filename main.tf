@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------
 module "ecs-alb" {
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.13"
+  version = "1.0.15"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
