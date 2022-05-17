@@ -99,6 +99,12 @@ variable "force_new_deployment" {
   default     = false
 }
 
+variable "enable_execute_command" {
+  description = "(Optional) Specifies whether to enable Amazon ECS Exec for the tasks within the service."
+  type        = bool
+  default     = false
+}
+
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE network_configuration BLOCK
 #------------------------------------------------------------------------------

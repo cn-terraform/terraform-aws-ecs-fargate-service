@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------
 module "ecs-alb" {
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.16"
+  version = "1.0.17"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
@@ -64,6 +64,7 @@ resource "aws_ecs_service" "service" {
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   desired_count                      = var.desired_count
   enable_ecs_managed_tags            = var.enable_ecs_managed_tags
+  enable_execute_command             = var.enable_execute_command
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
   launch_type                        = "FARGATE"
   force_new_deployment               = var.force_new_deployment
