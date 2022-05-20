@@ -8,8 +8,12 @@ module "ecs-alb" {
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
 
-  # S3 Bucket
-  block_s3_bucket_public_access = var.block_s3_bucket_public_access
+  # Application Load Balancer Logs S3 Bucket
+  enable_s3_logs                                 = var.enable_s3_logs
+  block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
+  enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
+  s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm
+  s3_bucket_server_side_encryption_key           = var.s3_bucket_server_side_encryption_key
 
   # Application Load Balancer
   internal                         = var.lb_internal
