@@ -60,13 +60,13 @@ In order to run all checks at any point run the following command:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.14.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.20.1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.21 |
+| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.23 |
 | <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.6 |
 
 ## Resources
@@ -76,8 +76,7 @@ In order to run all checks at any point run the following command:
 | [aws_ecs_service.service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
 | [aws_security_group.ecs_tasks_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group_rule.egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.ingress_through_http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.ingress_through_https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.ingress_through_http_and_https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 
 ## Inputs
 
@@ -140,8 +139,8 @@ In order to run all checks at any point run the following command:
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | The private subnets associated with the task or service. | `list(any)` | n/a | yes |
 | <a name="input_propagate_tags"></a> [propagate\_tags](#input\_propagate\_tags) | (Optional) Specifies whether to propagate the tags from the task definition or the service to the tasks. The valid values are SERVICE and TASK\_DEFINITION. Default to SERVICE | `string` | `"SERVICE"` | no |
 | <a name="input_public_subnets"></a> [public\_subnets](#input\_public\_subnets) | The public subnets associated with the task or service. | `list(any)` | n/a | yes |
-| <a name="input_s3_bucket_server_side_encryption_key"></a> [s3\_bucket\_server\_side\_encryption\_key](#input\_s3\_bucket\_server\_side\_encryption\_key) | (Optional) The AWS KMS master key ID used for the SSE-KMS encryption. This can only be used when you set the value of sse\_algorithm as aws:kms. The default aws/s3 AWS KMS master key is used if this element is absent while the sse\_algorithm is aws:kms. | `string` | `"aws/s3"` | no |
-| <a name="input_s3_bucket_server_side_encryption_sse_algorithm"></a> [s3\_bucket\_server\_side\_encryption\_sse\_algorithm](#input\_s3\_bucket\_server\_side\_encryption\_sse\_algorithm) | (Optional) The server-side encryption algorithm to use. Valid values are AES256 and aws:kms | `string` | `"aws:kms"` | no |
+| <a name="input_s3_bucket_server_side_encryption_key"></a> [s3\_bucket\_server\_side\_encryption\_key](#input\_s3\_bucket\_server\_side\_encryption\_key) | (Optional) The AWS KMS master key ID used for the SSE-KMS encryption. This can only be used when you set the value of sse\_algorithm as aws:kms. The default aws/s3 AWS KMS master key is used if this element is absent while the sse\_algorithm is aws:kms. | `string` | `null` | no |
+| <a name="input_s3_bucket_server_side_encryption_sse_algorithm"></a> [s3\_bucket\_server\_side\_encryption\_sse\_algorithm](#input\_s3\_bucket\_server\_side\_encryption\_sse\_algorithm) | (Optional) The server-side encryption algorithm to use. Valid values are AES256 and aws:kms | `string` | `"AES256"` | no |
 | <a name="input_scale_target_max_capacity"></a> [scale\_target\_max\_capacity](#input\_scale\_target\_max\_capacity) | The max capacity of the scalable target | `number` | `5` | no |
 | <a name="input_scale_target_min_capacity"></a> [scale\_target\_min\_capacity](#input\_scale\_target\_min\_capacity) | The min capacity of the scalable target | `number` | `1` | no |
 | <a name="input_security_groups"></a> [security\_groups](#input\_security\_groups) | (Optional) The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used. | `list(any)` | `[]` | no |
