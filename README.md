@@ -66,7 +66,7 @@ In order to run all checks at any point run the following command:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.23 |
+| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.24 |
 | <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.6 |
 
 ## Resources
@@ -86,6 +86,7 @@ In order to run all checks at any point run the following command:
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | (Optional) Assign a public IP address to the ENI (Fargate launch type only). If true service will be associated with public subnets. Default false. | `bool` | `false` | no |
 | <a name="input_block_s3_bucket_public_access"></a> [block\_s3\_bucket\_public\_access](#input\_block\_s3\_bucket\_public\_access) | (Optional) If true, public access to the S3 bucket will be blocked. | `bool` | `true` | no |
 | <a name="input_container_name"></a> [container\_name](#input\_container\_name) | Name of the running container | `any` | n/a | yes |
+| <a name="input_custom_lb_arn"></a> [custom\_lb\_arn](#input\_custom\_lb\_arn) | ARN of the Load Balancer to use in the ECS service. If provided, this module will not create a load balancer and will use the one provided in this variable | `string` | `null` | no |
 | <a name="input_default_certificate_arn"></a> [default\_certificate\_arn](#input\_default\_certificate\_arn) | (Optional) The ARN of the default SSL server certificate. Required if var.https\_ports is set. | `string` | `null` | no |
 | <a name="input_deployment_controller"></a> [deployment\_controller](#input\_deployment\_controller) | (Optional) Deployment controller | `list(string)` | `[]` | no |
 | <a name="input_deployment_maximum_percent"></a> [deployment\_maximum\_percent](#input\_deployment\_maximum\_percent) | (Optional) The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. | `number` | `200` | no |

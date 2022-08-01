@@ -49,27 +49,27 @@ output "ecs_tasks_sg_description" {
 #------------------------------------------------------------------------------
 output "aws_lb_lb_id" {
   description = "The ARN of the load balancer (matches arn)."
-  value       = module.ecs-alb.aws_lb_lb_id
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_id : null
 }
 
 output "aws_lb_lb_arn" {
   description = "The ARN of the load balancer (matches id)."
-  value       = module.ecs-alb.aws_lb_lb_arn
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_arn : null
 }
 
 output "aws_lb_lb_arn_suffix" {
   description = "The ARN suffix for use with CloudWatch Metrics."
-  value       = module.ecs-alb.aws_lb_lb_arn_suffix
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_arn_suffix : null
 }
 
 output "aws_lb_lb_dns_name" {
   description = "The DNS name of the load balancer."
-  value       = module.ecs-alb.aws_lb_lb_dns_name
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_dns_name : null
 }
 
 output "aws_lb_lb_zone_id" {
   description = "The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record)."
-  value       = module.ecs-alb.aws_lb_lb_zone_id
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_zone_id : null
 }
 
 #------------------------------------------------------------------------------
@@ -77,42 +77,42 @@ output "aws_lb_lb_zone_id" {
 #------------------------------------------------------------------------------
 output "aws_security_group_lb_access_sg_id" {
   description = "The ID of the security group"
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_id
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_id : null
 }
 
 output "aws_security_group_lb_access_sg_arn" {
   description = "The ARN of the security group"
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_arn
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_arn : null
 }
 
 output "aws_security_group_lb_access_sg_vpc_id" {
   description = "The VPC ID."
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_vpc_id
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_vpc_id : null
 }
 
 output "aws_security_group_lb_access_sg_owner_id" {
   description = "The owner ID."
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_owner_id
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_owner_id : null
 }
 
 output "aws_security_group_lb_access_sg_name" {
   description = "The name of the security group"
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_name
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_name : null
 }
 
 output "aws_security_group_lb_access_sg_description" {
   description = "The description of the security group"
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_description
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_description : null
 }
 
 output "aws_security_group_lb_access_sg_ingress" {
   description = "The ingress rules."
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_ingress
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_ingress : null
 }
 
 output "aws_security_group_lb_access_sg_egress" {
   description = "The egress rules."
-  value       = module.ecs-alb.aws_security_group_lb_access_sg_egress
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_egress : null
 }
 
 #------------------------------------------------------------------------------
@@ -120,32 +120,32 @@ output "aws_security_group_lb_access_sg_egress" {
 #------------------------------------------------------------------------------
 output "lb_http_tgs_ids" {
   description = "List of HTTP Target Groups IDs"
-  value       = module.ecs-alb.lb_http_tgs_ids
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_tgs_ids : null
 }
 
 output "lb_http_tgs_arns" {
   description = "List of HTTP Target Groups ARNs"
-  value       = module.ecs-alb.lb_http_tgs_arns
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_tgs_arns : null
 }
 
 output "lb_http_tgs_names" {
   description = "List of HTTP Target Groups Names"
-  value       = module.ecs-alb.lb_http_tgs_names
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_tgs_names : null
 }
 
 output "lb_https_tgs_ids" {
   description = "List of HTTPS Target Groups IDs"
-  value       = module.ecs-alb.lb_https_tgs_ids
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_tgs_ids : null
 }
 
 output "lb_https_tgs_arns" {
   description = "List of HTTPS Target Groups ARNs"
-  value       = module.ecs-alb.lb_https_tgs_arns
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_tgs_arns : null
 }
 
 output "lb_https_tgs_names" {
   description = "List of HTTPS Target Groups Names"
-  value       = module.ecs-alb.lb_https_tgs_names
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_tgs_names : null
 }
 
 #------------------------------------------------------------------------------
@@ -153,20 +153,20 @@ output "lb_https_tgs_names" {
 #------------------------------------------------------------------------------
 output "lb_http_listeners_ids" {
   description = "List of HTTP Listeners IDs"
-  value       = module.ecs-alb.lb_http_listeners_ids
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_listeners_ids : null
 }
 
 output "lb_http_listeners_arns" {
   description = "List of HTTP Listeners ARNs"
-  value       = module.ecs-alb.lb_http_listeners_arns
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_listeners_arns : null
 }
 
 output "lb_https_listeners_ids" {
   description = "List of HTTPS Listeners IDs"
-  value       = module.ecs-alb.lb_https_listeners_ids
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_listeners_ids : null
 }
 
 output "lb_https_listeners_arns" {
   description = "List of HTTPS Listeners ARNs"
-  value       = module.ecs-alb.lb_https_listeners_arns
+  value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_listeners_arns : null
 }

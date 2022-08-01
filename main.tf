@@ -2,6 +2,8 @@
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
 module "ecs-alb" {
+  count = var.custom_lb_arn == null ? 1 : 0
+
   source  = "cn-terraform/ecs-alb/aws"
   version = "1.0.24"
 
@@ -74,7 +76,7 @@ resource "aws_ecs_service" "service" {
   force_new_deployment               = var.force_new_deployment
 
   dynamic "load_balancer" {
-    for_each = module.ecs-alb.lb_http_tgs_map_arn_port
+    for_each = module.ecs-alb[0].lb_http_tgs_map_arn_port
     content {
       target_group_arn = load_balancer.key
       container_name   = var.container_name
@@ -82,7 +84,7 @@ resource "aws_ecs_service" "service" {
     }
   }
   dynamic "load_balancer" {
-    for_each = module.ecs-alb.lb_https_tgs_map_arn_port
+    for_each = module.ecs-alb[0].lb_https_tgs_map_arn_port
     content {
       target_group_arn = load_balancer.key
       container_name   = var.container_name
@@ -161,13 +163,13 @@ resource "aws_security_group_rule" "egress" {
 }
 
 resource "aws_security_group_rule" "ingress_through_http_and_https" {
-  for_each                 = toset(concat(module.ecs-alb.lb_https_tgs_ports, module.ecs-alb.lb_http_tgs_ports))
+  for_each                 = toset(concat(module.ecs-alb[0].lb_https_tgs_ports, module.ecs-alb[0].lb_http_tgs_ports))
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key
   to_port                  = each.key
   protocol                 = "tcp"
-  source_security_group_id = module.ecs-alb.aws_security_group_lb_access_sg_id
+  source_security_group_id = module.ecs-alb[0].aws_security_group_lb_access_sg_id
 }
 
 module "ecs-autoscaling" {
