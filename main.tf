@@ -28,6 +28,7 @@ module "ecs-alb" {
   enable_cross_zone_load_balancing = var.lb_enable_cross_zone_load_balancing
   enable_http2                     = var.lb_enable_http2
   ip_address_type                  = var.lb_ip_address_type
+  waf_web_acl_arn                  = var.waf_web_acl_arn
 
   # Access Control to Application Load Balancer
   http_ports                    = var.lb_http_ports
