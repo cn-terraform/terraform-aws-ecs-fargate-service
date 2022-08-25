@@ -135,6 +135,12 @@ resource "aws_ecs_service" "service" {
       Name = "${var.name_prefix}-ecs-tasks-sg"
     },
   )
+
+  lifecycle {
+    ignore_changes = [
+      task_definition
+    ]
+  }
 }
 
 #------------------------------------------------------------------------------
