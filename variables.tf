@@ -31,6 +31,15 @@ variable "deployment_minimum_healthy_percent" {
   default     = 100
 }
 
+variable "deployment_circuit_breaker" {
+  description = "(Optional) You can enable the deployment circuit breaker to cause a service deployment to transition to a failed state if tasks are persistently failing to reach RUNNING state or are failing healthcheck. The optional rollback option causes Amazon ECS to roll back to the last completed deployment upon a deployment failure."
+  type = list(object({
+    enabled  = bool
+    rollback = bool
+  }))
+  default = []
+}
+
 variable "desired_count" {
   description = "(Optional) The number of instances of the task definition to place and keep running. Defaults to 0."
   type        = number
