@@ -69,7 +69,6 @@ resource "aws_ecs_service" "service" {
   cluster                            = var.ecs_cluster_arn
   deployment_maximum_percent         = var.deployment_maximum_percent
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
-  deployment_circuit_breaker         = var.deployment_circuit_breaker
   desired_count                      = var.desired_count
   enable_ecs_managed_tags            = var.enable_ecs_managed_tags
   enable_execute_command             = var.enable_execute_command
@@ -97,6 +96,10 @@ resource "aws_ecs_service" "service" {
     security_groups  = concat([aws_security_group.ecs_tasks_sg.id], var.security_groups)
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
     assign_public_ip = var.assign_public_ip
+  }
+  deployment_circuit_breaker {
+    enabled  = var.deployment_circuit_breaker_enabled
+    rollback = var.deployment_circuit_breaker_rollback
   }
   dynamic "ordered_placement_strategy" {
     for_each = var.ordered_placement_strategy
