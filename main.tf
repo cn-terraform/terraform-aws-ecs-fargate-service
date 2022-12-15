@@ -98,7 +98,7 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = var.assign_public_ip
   }
   deployment_circuit_breaker {
-    enabled  = var.deployment_circuit_breaker_enabled
+    enable   = var.deployment_circuit_breaker_enabled
     rollback = var.deployment_circuit_breaker_rollback
   }
   dynamic "ordered_placement_strategy" {
