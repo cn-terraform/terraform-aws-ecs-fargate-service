@@ -97,6 +97,10 @@ resource "aws_ecs_service" "service" {
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
     assign_public_ip = var.assign_public_ip
   }
+  deployment_circuit_breaker {
+    enable   = var.deployment_circuit_breaker_enabled
+    rollback = var.deployment_circuit_breaker_rollback
+  }
   dynamic "ordered_placement_strategy" {
     for_each = var.ordered_placement_strategy
     content {
