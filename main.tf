@@ -6,7 +6,7 @@ module "ecs-alb" {
 
 #  source  = "cn-terraform/ecs-alb/aws"
 #  version = "1.0.27"
-  source = "github.com/TeachstoneLLC/terraform-aws-ecs-alb.git?ref=deb0667b1fbb8bce7244a01571379e53ca96a0b6"
+  source = "github.com/TeachstoneLLC/terraform-aws-ecs-alb.git?ref=d82a454d7b0a12a9d45b9e00ebc56c21bb9040d1"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
