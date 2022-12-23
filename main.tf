@@ -6,7 +6,7 @@ module "ecs-alb" {
 
 #  source  = "cn-terraform/ecs-alb/aws"
 #  version = "1.0.27"
-  source = "https://github.com/TeachstoneLLC/terraform-aws-ecs-alb/tree/bring_your_own_bucket"
+  source = "github.com/TeachstoneLLC/terraform-aws-ecs-alb.git?ref=deb0667b1fbb8bce7244a01571379e53ca96a0b6"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
