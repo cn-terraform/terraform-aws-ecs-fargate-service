@@ -4,9 +4,9 @@
 module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
-#  source  = "cn-terraform/ecs-alb/aws"
-#  version = "1.0.27"
-  source = "github.com/TeachstoneLLC/terraform-aws-ecs-alb.git?ref=608212ba0c901f7f81c3f875dadc8b40c0dffe2e"
+  #  source  = "cn-terraform/ecs-alb/aws"
+  #  version = "1.0.27"
+  source = "github.com/TeachstoneLLC/terraform-aws-ecs-alb.git?ref=13b430b277cc70525372389dc987335c02a60027"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
