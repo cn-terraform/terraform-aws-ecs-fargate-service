@@ -35,11 +35,11 @@ The ECS ALB module:
 
 ## Install pre commit hooks.
 
-Pleas run this command right after cloning the repository.
+Please run this command right after cloning the repository.
 
         pre-commit install
 
-For that you may need to install the folowwing tools:
+For that you may need to install the following tools:
 * [Pre-commit](https://pre-commit.com/)
 * [Terraform Docs](https://terraform-docs.io/)
 
@@ -60,13 +60,13 @@ In order to run all checks at any point run the following command:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.24.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.48.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | github.com/TeachstoneLLC/terraform-aws-ecs-alb.git | 608212ba0c901f7f81c3f875dadc8b40c0dffe2e |
+| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.28 |
 | <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.6 |
 
 ## Resources
