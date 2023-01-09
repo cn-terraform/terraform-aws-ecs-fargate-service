@@ -5,17 +5,20 @@ module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.27"
+  version = "1.0.28"
+
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
 
   # Application Load Balancer Logs S3 Bucket
   enable_s3_logs                                 = var.enable_s3_logs
+  log_bucket_id                                  = var.log_bucket_id
   block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
   s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm
   s3_bucket_server_side_encryption_key           = var.s3_bucket_server_side_encryption_key
+  access_logs_prefix                             = var.access_logs_prefix
 
   # Application Load Balancer
   internal                         = var.lb_internal

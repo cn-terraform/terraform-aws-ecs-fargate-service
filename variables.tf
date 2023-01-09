@@ -431,31 +431,44 @@ variable "additional_certificates_arn_for_https_listeners" {
 # Load Balancer Logs S3 bucket
 #------------------------------------------------------------------------------
 variable "enable_s3_logs" {
-  description = "(Optional) If true, all resources to send LB logs to S3 will be created"
+  description = "(Optional) If true, all LoadBalancer logs will be send to S3.  If true, and log_bucket_id is *not* provided, this module will create the bucket with other provided s3 bucket configuration options"
   type        = bool
   default     = true
 }
 
+variable "log_bucket_id" {
+  description = "(Optional) if provided, the ID of a previously-defined S3 bucket to send LB logs to."
+  type        = string
+  default     = null
+}
+
+
 variable "block_s3_bucket_public_access" {
-  description = "(Optional) If true, public access to the S3 bucket will be blocked."
+  description = "(Optional) If true, public access to the S3 bucket will be blocked.  Ignored if log_bucket_id is provided."
   type        = bool
   default     = true
 }
 
 variable "enable_s3_bucket_server_side_encryption" {
-  description = "(Optional) If true, server side encryption will be applied."
+  description = "(Optional) If true, server side encryption will be applied.  Ignored if log_bucket_id is provided."
   type        = bool
   default     = true
 }
 
 variable "s3_bucket_server_side_encryption_sse_algorithm" {
-  description = "(Optional) The server-side encryption algorithm to use. Valid values are AES256 and aws:kms"
+  description = "(Optional) The server-side encryption algorithm to use. Valid values are AES256 and aws:kms.  Ignored if log_bucket_id is provided."
   type        = string
   default     = "AES256"
 }
 
 variable "s3_bucket_server_side_encryption_key" {
-  description = "(Optional) The AWS KMS master key ID used for the SSE-KMS encryption. This can only be used when you set the value of sse_algorithm as aws:kms. The default aws/s3 AWS KMS master key is used if this element is absent while the sse_algorithm is aws:kms."
+  description = "(Optional) The AWS KMS master key ID used for the SSE-KMS encryption. This can only be used when you set the value of sse_algorithm as aws:kms. The default aws/s3 AWS KMS master key is used if this element is absent while the sse_algorithm is aws:kms.    Ignored if log_bucket_id is provided."
+  type        = string
+  default     = null
+}
+
+variable "access_logs_prefix" {
+  description = "(Optional) if access logging to an S3 bucket, this sets a prefix in the bucket beneath which this LB's logs will be organized."
   type        = string
   default     = null
 }
