@@ -21,7 +21,7 @@ module "td" {
 
 module "service" {
   source              = "../../"
-  name_prefix         = "test-service"
+  name_prefix         = "test"
   vpc_id              = module.base-network.vpc_id
   ecs_cluster_arn     = module.cluster.aws_ecs_cluster_cluster_arn
   task_definition_arn = module.td.aws_ecs_task_definition_td_arn
