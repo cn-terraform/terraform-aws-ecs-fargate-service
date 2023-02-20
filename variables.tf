@@ -309,7 +309,7 @@ variable "lb_https_ports" {
   description = "Map containing objects to define listeners behaviour based on type field. If type field is `forward`, include listener_port and the target_group_port. For `redirect` type, include listener port, host, path, port, protocol, query and status_code. For `fixed-response`, include listener_port, content_type, message_body and status_code"
   type        = map(any)
   default = {
-    default-http = {
+    default-https = {
       type              = "forward"
       listener_port     = 443
       target_group_port = 443
