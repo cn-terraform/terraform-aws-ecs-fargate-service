@@ -24,6 +24,8 @@ provider "aws" {
     cloudformation = "http://localstack:4566"
     cloudwatch     = "http://localstack:4566"
     dynamodb       = "http://localstack:4566"
+    ec2            = "http://localstack:4566"
+    ecs            = "http://localstack:4566" #<--Requires Pro version
     es             = "http://localstack:4566"
     firehose       = "http://localstack:4566"
     iam            = "http://localstack:4566"

@@ -5,8 +5,7 @@ module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.31"
-
+  version = "1.0.32"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
@@ -95,6 +94,15 @@ resource "aws_ecs_service" "service" {
       container_port   = load_balancer.value
     }
   }
+  dynamic "load_balancer" {
+    for_each = var.additional_lbs
+    content {
+      target_group_arn = load_balancer.value.target_group_arn
+      container_name   = var.container_name
+      container_port   = load_balancer.value.container_port
+    }
+  }
+
   network_configuration {
     security_groups  = concat([aws_security_group.ecs_tasks_sg.id], var.security_groups)
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
@@ -135,13 +143,23 @@ resource "aws_ecs_service" "service" {
       container_port = lookup(service_registries.value, "container_port", null)
     }
   }
-  task_definition = var.task_definition_arn
+  #When deployment_controller is EXTERNAL, task_definition must not be used
+  task_definition = lookup(one(var.deployment_controller[*]), "type", "ECS") != "EXTERNAL" ? var.task_definition_arn : null
+
   tags = merge(
     var.tags,
     {
       Name = "${var.name_prefix}-ecs-tasks-sg"
     },
   )
+
+  lifecycle {
+    ignore_changes = [
+      desired_count,   #Can be changed by autoscaling
+      task_definition, #Can be changed by deployments (CodeDeploy)
+      deployment_circuit_breaker
+    ]
+  }
 }
 
 #------------------------------------------------------------------------------

@@ -74,9 +74,13 @@ variable "ordered_placement_strategy" {
 }
 
 variable "deployment_controller" {
-  description = "(Optional) Deployment controller"
+  description = "(Optional) Deployment controller default: 'ECS'"
   type        = list(any)
-  default     = []
+  default = [
+    {
+      type = "ECS"
+    }
+  ]
 }
 
 variable "placement_constraints" {
@@ -102,7 +106,9 @@ variable "service_registries" {
 }
 
 variable "task_definition_arn" {
-  description = "(Required) The full ARN of the task definition that you want to run in your service."
+  description = "(Optional) The full ARN of the task definition that you want to run in your service."
+  default     = ""
+  type        = string
 }
 
 variable "force_new_deployment" {
@@ -222,6 +228,19 @@ variable "custom_lb_arn" {
   description = "ARN of the Load Balancer to use in the ECS service. If provided, this module will not create a load balancer and will use the one provided in this variable"
   type        = string
   default     = null
+}
+
+variable "additional_lbs" {
+  default     = {}
+  description = "Additional load balancers to add to ECS service"
+  type = map(object
+    (
+      {
+        target_group_arn = string
+        container_port   = number
+      }
+    )
+  )
 }
 
 variable "lb_internal" {
