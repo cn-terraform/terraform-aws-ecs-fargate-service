@@ -305,9 +305,12 @@ variable "lb_http_ports" {
   type        = map(any)
   default = {
     default-http = {
-      type              = "forward"
-      listener_port     = 80
-      target_group_port = 80
+      type                  = "forward"
+      listener_port         = 80
+      target_group_port     = 80
+      target_group_protocol = "HTTP"
+      # HTTP1, HTTP2 or GRPC
+      target_group_protocol_version = "HTTP1"
     }
   }
 }
@@ -329,9 +332,12 @@ variable "lb_https_ports" {
   type        = map(any)
   default = {
     default-https = {
-      type              = "forward"
-      listener_port     = 443
-      target_group_port = 443
+      type                  = "forward"
+      listener_port         = 443
+      target_group_port     = 443
+      target_group_protocol = "HTTP"
+      # HTTP1, HTTP2 or GRPC
+      target_group_protocol_version = "HTTP1"
     }
   }
 }
@@ -399,6 +405,12 @@ variable "lb_target_group_health_check_path" {
   description = "The destination for the health check request."
   type        = string
   default     = "/"
+}
+
+variable "lb_target_group_health_check_port" {
+  description = "(Optional) The port to use to connect with the target. Valid values are either ports 1-65536, or traffic-port. Defaults to traffic-port."
+  type        = string
+  default     = "traffic-port"
 }
 
 variable "lb_target_group_health_check_timeout" {
