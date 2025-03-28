@@ -5,7 +5,7 @@ module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.33"
+  version = "1.0.34"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
