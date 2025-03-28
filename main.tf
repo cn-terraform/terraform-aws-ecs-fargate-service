@@ -5,7 +5,7 @@ module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
   source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.32"
+  version = "1.0.33"
 
   name_prefix = var.name_prefix
   vpc_id      = var.vpc_id
@@ -48,6 +48,7 @@ module "ecs-alb" {
   target_group_health_check_enabled             = var.lb_target_group_health_check_enabled
   target_group_health_check_interval            = var.lb_target_group_health_check_interval
   target_group_health_check_path                = var.lb_target_group_health_check_path
+  target_group_health_check_port                = var.lb_target_group_health_check_port
   target_group_health_check_timeout             = var.lb_target_group_health_check_timeout
   target_group_health_check_healthy_threshold   = var.lb_target_group_health_check_healthy_threshold
   target_group_health_check_unhealthy_threshold = var.lb_target_group_health_check_unhealthy_threshold
