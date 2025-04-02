@@ -2,7 +2,12 @@
 # Misc
 #------------------------------------------------------------------------------
 variable "name_prefix" {
-  description = "Name prefix for resources on AWS"
+  description = "Name prefix for resources on AWS. Max length is 15 characters."
+  type        = string
+  validation {
+    condition     = length(var.name_prefix) <= 15
+    error_message = "The name prefix must be 15 characters or less."
+  }
 }
 
 #------------------------------------------------------------------------------
@@ -302,15 +307,40 @@ variable "waf_web_acl_arn" {
 #------------------------------------------------------------------------------
 variable "lb_http_ports" {
   description = "Map containing objects to define listeners behaviour based on type field. If type field is `forward`, include listener_port and the target_group_port. For `redirect` type, include listener port, host, path, port, protocol, query and status_code. For `fixed-response`, include listener_port, content_type, message_body and status_code"
-  type        = map(any)
+  type = map(object({
+    type = optional(string)
+
+    listener_port     = number
+    target_group_port = number
+
+    target_group_protocol         = optional(string, "HTTP")
+    target_group_protocol_version = optional(string, "HTTP1") # HTTP1, HTTP2 or GRPC
+
+    # Health check options, overriding default values provided as module variables
+    target_group_health_check_enabled             = optional(bool)
+    target_group_health_check_interval            = optional(number)
+    target_group_health_check_path                = optional(string)
+    target_group_health_check_port                = optional(string)
+    target_group_health_check_protocol            = optional(string, "HTTP")
+    target_group_health_check_timeout             = optional(number)
+    target_group_health_check_healthy_threshold   = optional(number)
+    target_group_health_check_unhealthy_threshold = optional(number)
+    target_group_health_check_matcher             = optional(string)
+
+    host         = optional(string, "#{host}")
+    path         = optional(string, "/#{path}")
+    port         = optional(string, "#{port}")
+    protocol     = optional(string, "#{protocol}")
+    query        = optional(string, "#{query}")
+    status_code  = optional(string) # Default for `type=redirect`: "HTTP_301". Default for `type=fixed-response`: "200".
+    content_type = optional(string, "text/plain")
+    message_body = optional(string, "Fixed response content")
+  }))
   default = {
-    default-http = {
-      type                  = "forward"
-      listener_port         = 80
-      target_group_port     = 80
-      target_group_protocol = "HTTP"
-      # HTTP1, HTTP2 or GRPC
-      target_group_protocol_version = "HTTP1"
+    default = {
+      type              = "forward"
+      listener_port     = 80
+      target_group_port = 80
     }
   }
 }
@@ -329,15 +359,40 @@ variable "lb_http_ingress_prefix_list_ids" {
 
 variable "lb_https_ports" {
   description = "Map containing objects to define listeners behaviour based on type field. If type field is `forward`, include listener_port and the target_group_port. For `redirect` type, include listener port, host, path, port, protocol, query and status_code. For `fixed-response`, include listener_port, content_type, message_body and status_code"
-  type        = map(any)
+  type = map(object({
+    type = optional(string)
+
+    listener_port     = number
+    target_group_port = number
+
+    target_group_protocol         = optional(string, "HTTP")
+    target_group_protocol_version = optional(string, "HTTP1") # HTTP1, HTTP2 or GRPC
+
+    # Health check options, overriding default values provided as module variables
+    target_group_health_check_enabled             = optional(bool)
+    target_group_health_check_interval            = optional(number)
+    target_group_health_check_path                = optional(string)
+    target_group_health_check_port                = optional(string)
+    target_group_health_check_protocol            = optional(string, "HTTP")
+    target_group_health_check_timeout             = optional(number)
+    target_group_health_check_healthy_threshold   = optional(number)
+    target_group_health_check_unhealthy_threshold = optional(number)
+    target_group_health_check_matcher             = optional(string)
+
+    host         = optional(string, "#{host}")
+    path         = optional(string, "/#{path}")
+    port         = optional(string, "#{port}")
+    protocol     = optional(string, "#{protocol}")
+    query        = optional(string, "#{query}")
+    status_code  = optional(string) # Default for `type=redirect`: "HTTP_301". Default for `type=fixed-response`: "200".
+    content_type = optional(string, "text/plain")
+    message_body = optional(string, "Fixed response content")
+  }))
   default = {
     default-https = {
-      type                  = "forward"
-      listener_port         = 443
-      target_group_port     = 443
-      target_group_protocol = "HTTP"
-      # HTTP1, HTTP2 or GRPC
-      target_group_protocol_version = "HTTP1"
+      type              = "forward"
+      listener_port     = 443
+      target_group_port = 443
     }
   }
 }
@@ -411,6 +466,12 @@ variable "lb_target_group_health_check_port" {
   description = "(Optional) The port to use to connect with the target. Valid values are either ports 1-65536, or traffic-port. Defaults to traffic-port."
   type        = string
   default     = "traffic-port"
+}
+
+variable "lb_target_group_health_check_protocol" {
+  description = "(Optional) The protocol the load balancer uses when performing health checks on targets. Valid values are HTTP and HTTPS. Defaults to HTTP."
+  type        = string
+  default     = "HTTP"
 }
 
 variable "lb_target_group_health_check_timeout" {
