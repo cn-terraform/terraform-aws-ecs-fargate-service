@@ -2,7 +2,12 @@
 # Misc
 #------------------------------------------------------------------------------
 variable "name_prefix" {
-  description = "Name prefix for resources on AWS"
+  description = "Name prefix for resources on AWS. Max length is 15 characters."
+  type        = string
+  validation {
+    condition     = length(var.name_prefix) <= 15
+    error_message = "The name prefix must be 15 characters or less."
+  }
 }
 
 #------------------------------------------------------------------------------
