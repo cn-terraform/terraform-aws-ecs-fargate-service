@@ -413,6 +413,12 @@ variable "lb_target_group_health_check_port" {
   default     = "traffic-port"
 }
 
+variable "lb_target_group_health_check_protocol" {
+  description = "(Optional) The protocol the load balancer uses when performing health checks on targets. Valid values are HTTP and HTTPS. Defaults to HTTP."
+  type        = string
+  default     = "HTTP"
+}
+
 variable "lb_target_group_health_check_timeout" {
   description = "(Optional) The amount of time, in seconds, during which no response means a failed health check. The range is 2 to 120 seconds, and the default is 5 seconds."
   type        = number

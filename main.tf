@@ -49,6 +49,7 @@ module "ecs-alb" {
   target_group_health_check_interval            = var.lb_target_group_health_check_interval
   target_group_health_check_path                = var.lb_target_group_health_check_path
   target_group_health_check_port                = var.lb_target_group_health_check_port
+  target_group_health_check_protocol            = var.lb_target_group_health_check_protocol
   target_group_health_check_timeout             = var.lb_target_group_health_check_timeout
   target_group_health_check_healthy_threshold   = var.lb_target_group_health_check_healthy_threshold
   target_group_health_check_unhealthy_threshold = var.lb_target_group_health_check_unhealthy_threshold
