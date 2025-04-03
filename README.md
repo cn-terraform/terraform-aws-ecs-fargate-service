@@ -66,7 +66,7 @@ In order to run all checks at any point run the following command:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.35 |
+| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.36 |
 | <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.10 |
 
 ## Resources
