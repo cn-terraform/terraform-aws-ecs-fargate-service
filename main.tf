@@ -148,7 +148,7 @@ resource "aws_ecs_service" "service" {
   #When deployment_controller is EXTERNAL, task_definition must not be used
   task_definition = lookup(one(var.deployment_controller[*]), "type", "ECS") != "EXTERNAL" ? var.task_definition_arn : null
 
-  wait_for_steady_state = var.wait_for_ready
+  wait_for_steady_state = var.wait_for_ready_state
 
   tags = merge(
     var.tags,
