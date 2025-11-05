@@ -60,14 +60,14 @@ In order to run all checks at any point run the following command:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.93.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.19.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.36 |
-| <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.10 |
+| <a name="module_ecs-alb"></a> [ecs-alb](#module\_ecs-alb) | cn-terraform/ecs-alb/aws | 1.0.37 |
+| <a name="module_ecs-autoscaling"></a> [ecs-autoscaling](#module\_ecs-autoscaling) | cn-terraform/ecs-service-autoscaling/aws | 1.0.12 |
 
 ## Resources
 
@@ -158,6 +158,7 @@ In order to run all checks at any point run the following command:
 | <a name="input_task_definition_arn"></a> [task\_definition\_arn](#input\_task\_definition\_arn) | (Optional) The full ARN of the task definition that you want to run in your service. | `string` | `""` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC | `any` | n/a | yes |
 | <a name="input_waf_web_acl_arn"></a> [waf\_web\_acl\_arn](#input\_waf\_web\_acl\_arn) | ARN of a WAFV2 to associate with the ALB | `string` | `""` | no |
+| <a name="input_wait_for_ready_state"></a> [wait\_for\_ready\_state](#input\_wait\_for\_ready\_state) | (Optional) If true, Terraform will wait for the service to reach a steady state (like aws ecs wait services-stable) before continuing. Default false. | `bool` | `false` | no |
 
 ## Outputs
 
