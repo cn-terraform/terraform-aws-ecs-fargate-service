@@ -235,10 +235,10 @@ variable "scale_target_min_capacity" {
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
-variable "custom_lb_arn" {
-  description = "ARN of the Load Balancer to use in the ECS service. If provided, this module will not create a load balancer and will use the one provided in this variable"
-  type        = string
-  default     = null
+variable "use_custom_lb" {
+  description = "If true, this module will not create a load balancer. You should set the variable additional_lbs to define load balancers to attach to the ECS service."
+  type        = bool
+  default     = false
 }
 
 variable "additional_lbs" {
