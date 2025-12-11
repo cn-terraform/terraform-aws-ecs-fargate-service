@@ -2,7 +2,7 @@
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
 module "ecs-alb" {
-  count = var.custom_lb_arn == null ? 1 : 0
+  count = var.use_custom_lb ? 0 : 1
 
   source  = "cn-terraform/ecs-alb/aws"
   version = "1.0.37"
@@ -81,21 +81,23 @@ resource "aws_ecs_service" "service" {
   force_new_deployment               = var.force_new_deployment
 
   dynamic "load_balancer" {
-    for_each = module.ecs-alb[0].lb_http_tgs_map_arn_port
+    for_each = var.use_custom_lb ? {} : module.ecs-alb[0].lb_http_tgs_map_arn_port
     content {
       target_group_arn = load_balancer.key
       container_name   = var.container_name
       container_port   = load_balancer.value
     }
   }
+
   dynamic "load_balancer" {
-    for_each = module.ecs-alb[0].lb_https_tgs_map_arn_port
+    for_each = var.use_custom_lb ? {} : module.ecs-alb[0].lb_https_tgs_map_arn_port
     content {
       target_group_arn = load_balancer.key
       container_name   = var.container_name
       container_port   = load_balancer.value
     }
   }
+
   dynamic "load_balancer" {
     for_each = var.additional_lbs
     content {
@@ -110,10 +112,12 @@ resource "aws_ecs_service" "service" {
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
     assign_public_ip = var.assign_public_ip
   }
+
   deployment_circuit_breaker {
     enable   = var.deployment_circuit_breaker_enabled
     rollback = var.deployment_circuit_breaker_rollback
   }
+
   dynamic "ordered_placement_strategy" {
     for_each = var.ordered_placement_strategy
     content {
@@ -121,12 +125,14 @@ resource "aws_ecs_service" "service" {
       field = lookup(ordered_placement_strategy.value, "field", null)
     }
   }
+
   dynamic "deployment_controller" {
     for_each = var.deployment_controller
     content {
       type = deployment_controller.value.type
     }
   }
+
   dynamic "placement_constraints" {
     for_each = var.placement_constraints
     content {
@@ -134,8 +140,10 @@ resource "aws_ecs_service" "service" {
       type       = placement_constraints.value.type
     }
   }
+
   platform_version = var.platform_version
   propagate_tags   = var.propagate_tags
+
   dynamic "service_registries" {
     for_each = var.service_registries
     content {
@@ -145,7 +153,8 @@ resource "aws_ecs_service" "service" {
       container_port = lookup(service_registries.value, "container_port", null)
     }
   }
-  #When deployment_controller is EXTERNAL, task_definition must not be used
+
+  # When deployment_controller is EXTERNAL, task_definition must not be used
   task_definition = lookup(one(var.deployment_controller[*]), "type", "ECS") != "EXTERNAL" ? var.task_definition_arn : null
 
   wait_for_steady_state = var.wait_for_ready_state
@@ -184,6 +193,7 @@ resource "aws_security_group" "ecs_tasks_sg" {
 
 resource "aws_security_group_rule" "egress" {
   count             = var.ecs_tasks_sg_allow_egress_to_anywhere ? 1 : 0
+
   security_group_id = aws_security_group.ecs_tasks_sg.id
   type              = "egress"
   from_port         = 0
@@ -193,7 +203,8 @@ resource "aws_security_group_rule" "egress" {
 }
 
 resource "aws_security_group_rule" "ingress_through_http_and_https" {
-  for_each                 = toset(concat(module.ecs-alb[0].lb_https_tgs_ports, module.ecs-alb[0].lb_http_tgs_ports))
+  for_each                 = var.use_custom_lb ? {} : toset(concat(module.ecs-alb[0].lb_https_tgs_ports, module.ecs-alb[0].lb_http_tgs_ports))
+
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
   from_port                = each.key
